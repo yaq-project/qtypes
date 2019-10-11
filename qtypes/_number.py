@@ -1,29 +1,28 @@
+__all__ = ["Number"]
+
+
 import numpy as np
-
-from .. import units as wt_units
-
-from qtpy import QtCore, QtGui, QtWidgets
-
-from .mobject import MObject
+import WrightTools as wt
+from PySide2 import QtCore, QtGui, QtWidgets
+from ._base import Base
 
 
-class NumberLimits(MObject):
+class NumberLimits(Base):
     def __init__(self, min_value=-1e6, max_value=1e6, units=None):
         """
         not appropriate for use as a gui element - only for backend use
         units must never change for this kind of object
         """
-        super().__init__()
-        super().write([min_value, max_value])
+        super().__init__(value=[min_value, max_value])
         self.units = units
 
     def read(self, output_units="same"):
-        min_value, max_value = super().read()
+        min_value, max_value = self.value.read()
         if output_units == "same":
             pass
         else:
-            min_value = wt_units.converter(min_value, self.units, output_units)
-            max_value = wt_units.converter(max_value, self.units, output_units)
+            min_value = wt.units.converter(min_value, self.units, output_units)
+            max_value = wt.units.converter(max_value, self.units, output_units)
         # ensure order
         min_value, max_value = [
             min([min_value, max_value]),
@@ -35,23 +34,24 @@ class NumberLimits(MObject):
         if input_units == "same":
             pass
         else:
-            min_value = wt_units.converter(min_value, input_units, self.units)
-            max_value = wt_units.converter(max_value, input_units, self.units)
+            min_value = wt.units.converter(min_value, input_units, self.units)
+            max_value = wt.units.converter(max_value, input_units, self.units)
         # ensure order
         min_value, max_value = [
             min([min_value, max_value]),
             max([min_value, max_value]),
         ]
-        super().write(self, [min_value, max_value])
+        super().value.write(self, [min_value, max_value])
         self.updated.emit()
 
 
-class Number(MObject):
+class Number(Base):
     units_updated = QtCore.Signal()
+    qtype = "number"
 
     def __init__(
         self,
-        initial_value=np.nan,
+        value=np.nan,
         single_step=1.0,
         decimals=3,
         limits=None,
@@ -59,8 +59,7 @@ class Number(MObject):
         *args,
         **kwargs
     ):
-        super().__init__(initial_value=initial_value, *args, **kwargs)
-        self.type = "number"
+        super().__init__(value=value, *args, **kwargs)
         self.disabled_units = False
         self.single_step = single_step
         self.decimals = decimals
@@ -68,7 +67,7 @@ class Number(MObject):
         # units
         self.units = units
         self.units_kind = None
-        for k, dic in wt_units.dicts.items():
+        for k, dic in wt.units.dicts.items():
             if self.units in dic.keys():
                 self.units_dic = dic
                 self.units_kind = k
@@ -86,8 +85,8 @@ class Number(MObject):
     def _set_limits(self):
         min_value, max_value = self.limits.read()
         limits_units = self.limits.units
-        min_value = wt_units.converter(min_value, limits_units, self.units)
-        max_value = wt_units.converter(max_value, limits_units, self.units)
+        min_value = wt.units.converter(min_value, limits_units, self.units)
+        max_value = wt.units.converter(max_value, limits_units, self.units)
         # ensure order
         min_value, max_value = [
             min([min_value, max_value]),
@@ -96,7 +95,7 @@ class Number(MObject):
         if self.has_widget:
             self.widget.setMinimum(min_value)
             self.widget.setMaximum(max_value)
-            if not self.display:
+            if not self.disabled:
                 self.set_tool_tip(
                     "min: " + str(min_value) + "\n" + "max: " + str(max_value)
                 )
@@ -123,7 +122,7 @@ class Number(MObject):
         # value
         self.value.lock()
         old_val = self.value.read()
-        new_val = wt_units.converter(old_val, self.units, str(destination_units))
+        new_val = wt.units.converter(old_val, self.units, str(destination_units))
         self.value.unlock()
         self.value.write(new_val)
         # commit and signal
@@ -137,7 +136,7 @@ class Number(MObject):
         if output_units == "same":
             pass
         else:
-            value = wt_units.converter(value, self.units, output_units)
+            value = wt.units.converter(value, self.units, output_units)
         return value
 
     def set_control_steps(self, single_step=None, decimals=None):
@@ -210,5 +209,5 @@ class Number(MObject):
         if input_units == "same":
             pass
         else:
-            value = wt_units.converter(value, input_units, self.units)
+            value = wt.units.converter(value, input_units, self.units)
         super().write(value)

@@ -1,21 +1,12 @@
-"""Thread-safe container for bool type."""
+__all__ = ["Bool"]
 
 
-import qtpy
-from qtpy import QtCore, QtGui, QtWidgets
-
-from .mobject import MObject
+from PySide2 import QtCore, QtGui, QtWidgets
+from ._base import Base
 
 
-class Bool(MObject):
-    """
-    holds 'value' (bool) - the state of the checkbox
-    use read method to access
-    """
-
-    def __init__(self, initial_value=False, *args, **kwargs):
-        super().__init__(initial_value=initial_value, *args, **kwargs)
-        self.type = "checkbox"
+class Bool(Base):
+    qtype = "bool"
 
     def give_control(self, control_widget):
         self.widget = control_widget
