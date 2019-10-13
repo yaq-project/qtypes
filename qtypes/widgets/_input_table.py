@@ -10,15 +10,16 @@ from ._spin_box import DoubleSpinBox
 
 # size notes for input table
 #   all rows have height of exactly 25
-#   all rows have width of exactly 150
+#   all rows have width of exactly 135
 #   total widget width is 300
+#   all margins 5
 
 
 class InputTable(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.setLayout(QtWidgets.QVBoxLayout())
-        self.layout().setMargin(5)
+        self.layout().setMargin(0)
         self.setFixedWidth(300)
         self.row_number = 0
         self.controls = []
@@ -51,51 +52,42 @@ class InputTable(QtWidgets.QWidget):
         row_layout.addStretch(1)
 
     def _append_number(self, label, obj):
-        row_layout = self._get_row_layout(label)
-        # layout
-        container_widget = QtWidgets.QWidget()
-        container_widget.setLayout(QtWidgets.QHBoxLayout())
-        layout = container_widget.layout()
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(5)
+        layout = self._get_row_layout(label)
         # control
         control = DoubleSpinBox()
         if obj.disabled:
             control.setDisabled(True)
         obj.give_control(control)
         layout.addWidget(control)
-        control.setFixedWidth(150)
+        control.setFixedHeight(25)
+        style = "QSpinBox{margin-right:5px}"
         # units combobox
-        if not obj.units_kind == None:
-            control.setMinimumWidth(150 - 55)
-            control.setMaximumWidth(150 - 55)
+        if obj.units_kind is None:
+            style += "QSpinBox::indicator{height:25px}"
+            control.setFixedWidth(150)
+        else:
+            control.setFixedWidth(100)
             units = QtWidgets.QComboBox()
-            units.setMinimumWidth(50)
-            units.setMaximumWidth(50)
+            units.setFixedHeight(25)
+            units.setFixedWidth(50)
+            units.setStyleSheet("margin-right:5px")
             layout.addWidget(units)
             obj.give_units_combo(units)
+        control.setStyleSheet(style)
         # finish
-        self.controls.append(container_widget)
-        row_layout.addWidget(container_widget)
+        self.controls.append(control)
 
-    def _append_string(self, name, global_object):
-        # heading
-        heading = QtWidgets.QLabel(name)
-        heading.setSizePolicy(
-            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
-        )
-        self.layout().addWidget(heading, self.row_number, 0)
+    def _append_string(self, label, obj):
+        layout = self._get_row_layout(label)
         # control
         control = QtWidgets.QLineEdit()
-        control.setMinimumWidth(self.width_input)
-        control.setMaximumWidth(self.width_input)
-        if global_object.disabled:
-            control.setDisabled(True)
-        global_object.give_control(control)
+        control.setFixedWidth(150)
+        control.setFixedHeight(25)
+        control.setStyleSheet("margin-right:5px")
+        obj.give_control(control)
+        layout.addWidget(control)
         # finish
-        self.layout().addWidget(control, self.row_number, 1)
         self.controls.append(control)
-        self.row_number += 1
 
     def _append_enum(self, name, global_object):
         # heading
@@ -115,23 +107,17 @@ class InputTable(QtWidgets.QWidget):
         self.controls.append(control)
         self.row_number += 1
 
-    def _append_bool(self, name, global_object):
-        # heading
-        heading = QtWidgets.QLabel(name)
-        heading.setSizePolicy(
-            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
-        )
-        self.layout().addWidget(heading, self.row_number, 0)
+    def _append_bool(self, label, obj):
+        layout = self._get_row_layout(label)
         # control
-        if global_object.display:
-            control = Led()
-        else:
-            control = QtWidgets.QCheckBox()
-        global_object.give_control(control)
+        control = QtWidgets.QCheckBox()
+        style = "QCheckBox::indicator {width:25px;height: 25px;}"
+        control.setStyleSheet(style)
+        obj.give_control(control)
+        layout.addWidget(control)
+        layout.addStretch()
         # finish
-        self.layout().addWidget(control, self.row_number, 1)
         self.controls.append(control)
-        self.row_number += 1
 
     def _append_filepath(self, name, global_object):
         raise NotImplementedError
@@ -162,7 +148,7 @@ class InputTable(QtWidgets.QWidget):
         global_object.give_button(load_button)
         # display
         display = QtWidgets.QLineEdit()
-        # display.setDisabled(True)
+        x  # display.setDisabled(True)
         display.setReadOnly(True)
         display.setMinimumWidth(self.width_input - 45)
         display.setMaximumWidth(self.width_input - 45)
@@ -179,9 +165,8 @@ class InputTable(QtWidgets.QWidget):
     def _get_row_layout(self, label):
         # create layout
         layout = QtWidgets.QHBoxLayout()
-        layout.setMargin(0)
-        layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         # add heading
         heading = QtWidgets.QLabel(label)
         heading.setSizePolicy(
@@ -195,7 +180,7 @@ class InputTable(QtWidgets.QWidget):
         widget = QtWidgets.QWidget()
         widget.setLayout(layout)
         widget.setFixedHeight(25)
-        widget.setStyleSheet("background-color: red")
+        # widget.setStyleSheet("background-color: red")
         self.layout().addWidget(widget, self.row_number)
         # finish
         self.row_number += 1

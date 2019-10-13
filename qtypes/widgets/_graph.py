@@ -2,7 +2,6 @@ __all__ = ["Graph"]
 
 
 import os
-from PySide2 import QtCore
 import pyqtgraph as pg
 
 

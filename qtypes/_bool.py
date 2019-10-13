@@ -8,6 +8,9 @@ from ._base import Base
 class Bool(Base):
     qtype = "bool"
 
+    def __init__(self, value=False, *args, **kwargs):
+        super().__init__(value=value, *args, **kwargs)
+
     def give_control(self, control_widget):
         self.widget = control_widget
         # set

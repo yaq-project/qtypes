@@ -9,7 +9,7 @@ class ScrollArea(QtWidgets.QScrollArea):
         super().__init__()
         self.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.setWidgetResizable(True)
-        self.setFixedWidth(315)
+        self.setFixedWidth(320)
         if show_bar:
             self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
