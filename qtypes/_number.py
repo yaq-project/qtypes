@@ -2,9 +2,9 @@ __all__ = ["Number"]
 
 
 import numpy as np
-import WrightTools as wt
 from PySide2 import QtCore, QtGui, QtWidgets
 from ._base import Base
+from ._units import converter
 
 
 class NumberLimits(Base):
@@ -21,8 +21,8 @@ class NumberLimits(Base):
         if output_units == "same":
             pass
         else:
-            min_value = wt.units.converter(min_value, self.units, output_units)
-            max_value = wt.units.converter(max_value, self.units, output_units)
+            min_value = converter(min_value, self.units, output_units)
+            max_value = converter(max_value, self.units, output_units)
         # ensure order
         min_value, max_value = [
             min([min_value, max_value]),
@@ -34,8 +34,8 @@ class NumberLimits(Base):
         if input_units == "same":
             pass
         else:
-            min_value = wt.units.converter(min_value, input_units, self.units)
-            max_value = wt.units.converter(max_value, input_units, self.units)
+            min_value = converter(min_value, input_units, self.units)
+            max_value = converter(max_value, input_units, self.units)
         # ensure order
         min_value, max_value = [
             min([min_value, max_value]),
@@ -85,8 +85,8 @@ class Number(Base):
     def _set_limits(self):
         min_value, max_value = self.limits.read()
         limits_units = self.limits.units
-        min_value = wt.units.converter(min_value, limits_units, self.units)
-        max_value = wt.units.converter(max_value, limits_units, self.units)
+        min_value = converter(min_value, limits_units, self.units)
+        max_value = converter(max_value, limits_units, self.units)
         # ensure order
         min_value, max_value = [
             min([min_value, max_value]),
@@ -104,7 +104,7 @@ class Number(Base):
         # value
         self.value.lock()
         old_val = self.value.read()
-        new_val = wt.units.converter(old_val, self.units, str(destination_units))
+        new_val = converter(old_val, self.units, str(destination_units))
         self.value.unlock()
         self.value.write(new_val)
         # commit and signal
@@ -118,7 +118,7 @@ class Number(Base):
         if output_units == "same":
             pass
         else:
-            value = wt.units.converter(value, self.units, output_units)
+            value = converter(value, self.units, output_units)
         return value
 
     def set_control_steps(self, single_step=None, decimals=None):
@@ -191,5 +191,5 @@ class Number(Base):
         if input_units == "same":
             pass
         else:
-            value = wt.units.converter(value, input_units, self.units)
+            value = converter(value, input_units, self.units)
         super().write(value)
