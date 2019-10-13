@@ -29,7 +29,7 @@ class InputTable(QtWidgets.QWidget):
         raise NotImplementedError
 
     def __getitem__(self, key):
-        raise NotImplementedError
+        return self._objs[key]
 
     def __setitem__(self, value):
         raise NotImplementedError
@@ -60,10 +60,9 @@ class InputTable(QtWidgets.QWidget):
         obj.give_control(control)
         layout.addWidget(control)
         control.setFixedHeight(25)
-        style = "QSpinBox{margin-right:5px}"
+        style = "margin-right:5px"
         # units combobox
         if obj.units_kind is None:
-            style += "QSpinBox::indicator{height:25px}"
             control.setFixedWidth(150)
         else:
             control.setFixedWidth(100)
@@ -180,7 +179,6 @@ class InputTable(QtWidgets.QWidget):
         widget = QtWidgets.QWidget()
         widget.setLayout(layout)
         widget.setFixedHeight(25)
-        # widget.setStyleSheet("background-color: red")
         self.layout().addWidget(widget, self.row_number)
         # finish
         self.row_number += 1

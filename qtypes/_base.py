@@ -48,3 +48,7 @@ class Base(QtCore.QObject):
         self.tool_tip = str(tool_tip)
         if self.has_widget:
             self.widget.setToolTip(self.tool_tip)
+
+    def write(self, value):
+        self.value.write(value)
+        self.updated.emit()

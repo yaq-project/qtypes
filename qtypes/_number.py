@@ -100,24 +100,6 @@ class Number(Base):
                     "min: " + str(min_value) + "\n" + "max: " + str(max_value)
                 )
 
-    def associate(self, display=None, pre_name=""):
-        # display
-        if display is None:
-            display = self.display
-        # name
-        name = pre_name + self.name
-        # new object
-        new_obj = Number(
-            initial_value=self.read(),
-            display=display,
-            units=self.units,
-            limits=self.limits,
-            single_step=self.single_step,
-            decimals=self.decimals,
-            name=name,
-        )
-        return new_obj
-
     def convert(self, destination_units):
         # value
         self.value.lock()

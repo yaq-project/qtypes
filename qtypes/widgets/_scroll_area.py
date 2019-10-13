@@ -19,8 +19,6 @@ class ScrollArea(QtWidgets.QScrollArea):
         self.child.layout().setMargin(5)
         self.child.layout().addStretch(1)
         self.setWidget(self.child)
-        style = "background-color: yellow"
-        self.setStyleSheet(style)
 
     def add_widget(self, widget):
         self.child.layout().insertWidget(self.child.layout().count() - 1, widget)
