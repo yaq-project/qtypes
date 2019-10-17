@@ -3,7 +3,7 @@ __all__ = ["InputTable"]
 
 import os
 import collections
-from PySide2 import QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtGui
 
 from ._spin_box import DoubleSpinBox
 
@@ -19,7 +19,7 @@ class InputTable(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.setLayout(QtWidgets.QVBoxLayout())
-        self.layout().setMargin(0)
+        #TODO: self.layout().setMargin(0)
         self.setFixedWidth(300)
         self.row_number = 0
         self.controls = []

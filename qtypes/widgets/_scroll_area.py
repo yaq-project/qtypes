@@ -1,7 +1,7 @@
 __all__ = ["ScrollArea"]
 
 
-from PySide2 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 
 
 class ScrollArea(QtWidgets.QScrollArea):
@@ -16,7 +16,7 @@ class ScrollArea(QtWidgets.QScrollArea):
         self.child = QtWidgets.QWidget()
         self.child.setFixedWidth(300)
         self.child.setLayout(QtWidgets.QVBoxLayout())
-        self.child.layout().setMargin(5)
+        # TODO: self.child.layout().setMargin(5)
         self.child.layout().addStretch(1)
         self.setWidget(self.child)
 

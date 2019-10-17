@@ -2,9 +2,10 @@ __all__ = ["Number"]
 
 
 import numpy as np
-from PySide2 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets
 from ._base import Base
 from ._units import converter
+from ._units import dicts
 
 
 class NumberLimits(Base):
@@ -67,7 +68,7 @@ class Number(Base):
         # units
         self.units = units
         self.units_kind = None
-        for k, dic in wt.units.dicts.items():
+        for k, dic in dicts.items():
             if self.units in dic.keys():
                 self.units_dic = dic
                 self.units_kind = k
@@ -187,9 +188,9 @@ class Number(Base):
         # finish
         self.units_widget.setDisabled(self.disabled_units)
 
-    def write(self, value, input_units="same"):
-        if input_units == "same":
+    def write(self, value, units="same"):
+        if units == "same":
             pass
         else:
-            value = converter(value, input_units, self.units)
+            value = converter(value, units, self.units)
         super().write(value)
