@@ -17,5 +17,5 @@ class PushButton(QtWidgets.QPushButton):
         style_sheet = "QPushButton{border-width:0px; border-radius:0px}"
         style_sheet += "QPushButton{font: bold}"
         # color
-        style_sheet += "QPushButton{background: red}"
+        style_sheet += "QPushButton{background: %s}" % background
         self.setStyleSheet(style_sheet)
