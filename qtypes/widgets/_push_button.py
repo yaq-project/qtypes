@@ -13,6 +13,9 @@ class PushButton(QtWidgets.QPushButton):
         super().__init__(label)
         self.setFixedHeight(55)
         self.setFixedWidth(300)
+        self.set_background(background)
+
+    def set_background(self, background="yellow"):
         # geometry
         style_sheet = "QPushButton{border-width:0px; border-radius:0px}"
         style_sheet += "QPushButton{font: bold}"
