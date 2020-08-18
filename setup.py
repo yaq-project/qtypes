@@ -21,7 +21,7 @@ setup(
     packages=find_packages(),
     package_data=extra_files,
     python_requires=">=3.7",
-    install_requires=[],
+    install_requires=["PySide2"],
     extras_require={"dev": ["black", "pre-commit"]},
     version=version,
     description="Core structures for yaq component daemons",

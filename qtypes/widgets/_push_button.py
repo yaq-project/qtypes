@@ -5,7 +5,7 @@ import collections
 import os
 
 
-from PyQt5 import QtWidgets
+from PySide2 import QtWidgets
 
 
 class PushButton(QtWidgets.QPushButton):

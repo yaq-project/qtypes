@@ -2,7 +2,7 @@ __all__ = ["ProgressBar"]
 
 
 import os
-from PyQt5 import QtWidgets
+from PySide2 import QtWidgets
 
 
 class ProgressBar(QtWidgets.QProgressBar):

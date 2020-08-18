@@ -2,7 +2,7 @@ __all__ = ["Number"]
 
 
 import numpy as np
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PySide2 import QtCore, QtGui, QtWidgets
 from ._base import Base
 from ._units import converter
 from ._units import dicts

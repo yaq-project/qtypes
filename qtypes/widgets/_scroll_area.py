@@ -1,7 +1,7 @@
 __all__ = ["ScrollArea"]
 
 
-from PyQt5 import QtCore, QtWidgets
+from PySide2 import QtCore, QtWidgets
 
 
 class ScrollArea(QtWidgets.QScrollArea):

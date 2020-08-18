@@ -3,7 +3,7 @@ __all__ = ["InputTable"]
 
 import os
 import collections
-from PyQt5 import QtWidgets, QtGui
+from PySide2 import QtWidgets, QtGui
 
 from ._spin_box import DoubleSpinBox
 

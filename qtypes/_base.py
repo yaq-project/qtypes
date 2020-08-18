@@ -1,8 +1,8 @@
 __all__ = ["Base"]
 
 
-import PyQt5
-from PyQt5 import QtCore, QtGui, QtWidgets
+import PySide2
+from PySide2 import QtCore, QtGui, QtWidgets
 
 
 class Value(QtCore.QMutex):
