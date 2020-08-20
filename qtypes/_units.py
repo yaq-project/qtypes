@@ -1,5 +1,4 @@
 import collections
-import numpy as np
 import warnings
 
 
@@ -109,12 +108,12 @@ def converter(val, current_unit, destination_unit):
             try:
                 native = eval(dic[current_unit][0])
             except ZeroDivisionError:
-                native = np.inf
+                native = float("inf")
             x = native  # noqa: F841
             try:
                 out = eval(dic[destination_unit][1])
             except ZeroDivisionError:
-                out = np.inf
+                out = float("inf")
             return out
     # if all dictionaries fail
     if current_unit is None and destination_unit is None:

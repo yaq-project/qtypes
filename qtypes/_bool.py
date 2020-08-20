@@ -1,7 +1,7 @@
 __all__ = ["Bool"]
 
 
-from PySide2 import QtCore, QtGui, QtWidgets
+from qtpy import QtCore, QtGui, QtWidgets
 from ._base import Base
 
 

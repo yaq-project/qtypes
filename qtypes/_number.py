@@ -1,8 +1,10 @@
 __all__ = ["Number"]
 
 
-import numpy as np
-from PySide2 import QtCore, QtGui, QtWidgets
+import math
+
+from qtpy import QtCore, QtGui, QtWidgets
+
 from ._base import Base
 from ._units import converter
 from ._units import dicts
@@ -42,7 +44,7 @@ class NumberLimits(Base):
             min([min_value, max_value]),
             max([min_value, max_value]),
         ]
-        super().value.write(self, [min_value, max_value])
+        self.value.write([min_value, max_value])
         self.updated.emit()
 
 
@@ -52,7 +54,7 @@ class Number(Base):
 
     def __init__(
         self,
-        value=np.nan,
+        value=float("nan"),
         single_step=1.0,
         decimals=3,
         limits=None,
@@ -149,7 +151,7 @@ class Number(Base):
 
     def set_widget(self):
         # special value text is displayed when widget is at minimum
-        if np.isnan(self.value.read()):
+        if math.isnan(self.value.read()):
             self.widget.setSpecialValueText("nan")
             self.widget.setValue(self.widget.minimum())
         else:
