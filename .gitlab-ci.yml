@@ -17,7 +17,7 @@ before_script:
   - source venv/bin/activate
   - pip install -U pytest
   - pip install -U pyside2
-  - pip install -U numpy
+  - pip install -U qtpy
   - pip install --no-dependencies .
 
 # test stage

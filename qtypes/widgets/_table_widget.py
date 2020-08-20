@@ -40,8 +40,8 @@ class TableWidget(QtWidgets.QTableWidget):
             "QHeaderView::section{color: %s; font: bold}" % colors["foreground"]
         )
         style_sheet += (
-            "QTableWidget::section{border: 5px solid red;}"
-        )  # % colors['background']
+            "QTableWidget::section{border: 5px solid red;}"  # % colors['background']
+        )
         self.setStyleSheet(style_sheet)
         self.setGridStyle(QtCore.Qt.SolidLine)
         self.setShowGrid(True)
