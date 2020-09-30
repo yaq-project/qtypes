@@ -1,10 +1,14 @@
-from .mobject import MObject
+__all__ = ["Enum"]
 
 
-class Combo(MObject):
+from qtpy import QtCore, QtGui, QtWidgets
+from ._base import Base
+
+
+class Enum(Base):
     def __init__(self, allowed_values=["None"], initial_value=None, *args, **kwargs):
         super().__init__()
-        self.type = "combo"
+        self.qtype = "enum"
         self.allowed_values = list(allowed_values)
         self.data_type = type(self.allowed_values[0])
         if initial_value is None:

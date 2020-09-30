@@ -1,16 +1,15 @@
-"""Class for a graphical line."""
+__all__ = ["Line"]
 
 
 import os
+import toml
 
 from qtpy import QtWidgets
-
-from ..core.ini import INI
 
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-colors = INI(os.path.join(here, "colors.ini")).dictionary["night"]
+colors = toml.load(os.path.join(here, "colors.toml"))["night"]
 
 
 class Line(QtWidgets.QFrame):

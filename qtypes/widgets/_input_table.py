@@ -88,23 +88,16 @@ class InputTable(QtWidgets.QWidget):
         # finish
         self.controls.append(control)
 
-    def _append_enum(self, name, global_object):
-        # heading
-        heading = QtWidgets.QLabel(name)
-        heading.setSizePolicy(
-            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
-        )
-        heading.setStyleSheet(StyleSheet)
-        self.layout().addWidget(heading, self.row_number, 0)
+    def _append_enum(self, label, obj):
+        layout = self._get_row_layout(label)
         # control
         control = QtWidgets.QComboBox()
-        control.setMinimumWidth(self.width_input)
-        control.setMaximumWidth(self.width_input)
-        global_object.give_control(control)
+        control.setFixedWidth(150)
+        control.setFixedHeight(25)
+        obj.give_control(control)
+        layout.addWidget(control)
         # finish
-        self.layout().addWidget(control, self.row_number, 1)
         self.controls.append(control)
-        self.row_number += 1
 
     def _append_bool(self, label, obj):
         layout = self._get_row_layout(label)
