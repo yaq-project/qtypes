@@ -14,9 +14,9 @@ class Bool(Base):
     def give_control(self, control_widget):
         self.widget = control_widget
         # set
-        self.widget.setChecked(self.value.read())
+        self.widget.setChecked(self.value.get())
         # connect signals and slots
-        self.updated.connect(lambda: self.widget.setChecked(self.value.read()))
+        self.updated.connect(lambda: self.widget.setChecked(self.value.get()))
         self.widget.stateChanged.connect(lambda: self(value=self.widget.isChecked()))
         # finish
         self.widget.setToolTip(self.tool_tip)

@@ -10,16 +10,14 @@ from ._spin_box import DoubleSpinBox
 
 # size notes for input table
 #   all rows have height of exactly 25
-#   all rows have width of exactly 135
-#   total widget width is 300
-#   all margins 5
+#   all rows have total width of 300
 
 
 class InputTable(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.setLayout(QtWidgets.QVBoxLayout())
-        # TODO: self.layout().setMargin(0)
+        self.layout().setMargin(0)
         self.setFixedWidth(300)
         self.row_number = 0
         self.controls = []
@@ -60,7 +58,6 @@ class InputTable(QtWidgets.QWidget):
         obj.give_control(control)
         layout.addWidget(control)
         control.setFixedHeight(25)
-        style = "margin-right:5px"
         # units combobox
         if obj.units_kind is None:
             control.setFixedWidth(150)
@@ -72,7 +69,6 @@ class InputTable(QtWidgets.QWidget):
             units.setStyleSheet("margin-right:5px")
             layout.addWidget(units)
             obj.give_units_combo(units)
-        control.setStyleSheet(style)
         # finish
         self.controls.append(control)
 
@@ -111,45 +107,32 @@ class InputTable(QtWidgets.QWidget):
         # finish
         self.controls.append(control)
 
-    def _append_filepath(self, name, global_object):
-        raise NotImplementedError
-        # heading
-        heading = QtWidgets.QLabel(name)
-        heading.setSizePolicy(
-            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
-        )
-        StyleSheet = "QLabel{color: custom_color; font: 14px;}".replace(
-            "custom_color", colors[foreground]
-        )
-        heading.setStyleSheet(StyleSheet)
-        self.layout().addWidget(heading, self.row_number, 0)
+    def _append_filepath(self, label, obj):
+        layout = self._get_row_layout(label)
         # layout
         container_widget = QtWidgets.QWidget()
         container_widget.setLayout(QtWidgets.QHBoxLayout())
-        layout = container_widget.layout()
-        layout.setMargin(0)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(5)
+        container_widget.layout().setMargin(0)
+        container_widget.layout().setContentsMargins(0, 0, 0, 0)
         # push button
         load_button = QtWidgets.QPushButton("Load")
-        load_button.setMinimumHeight(20)
-        load_button.setMaximumHeight(20)
-        load_button.setMinimumWidth(40)
-        load_button.setMaximumWidth(40)
-        layout.addWidget(load_button)
-        global_object.give_button(load_button)
+        load_button.setFixedHeight(25)
+        load_button.setFixedWidth(40)
+        container_widget.layout().addWidget(load_button)
+        obj.give_button(load_button)
+        # stretch
+        container_widget.layout().addStretch(1)
         # display
         display = QtWidgets.QLineEdit()
-        x  # display.setDisabled(True)
+        # display.setDisabled(True)
         display.setReadOnly(True)
-        display.setMinimumWidth(self.width_input - 45)
-        display.setMaximumWidth(self.width_input - 45)
-        layout.addWidget(display)
-        global_object.give_control(display)
+        load_button.setFixedHeight(25)
+        display.setFixedWidth(104)
+        container_widget.layout().addWidget(display)
+        obj.give_control(display)
         # finish
-        self.layout().addWidget(container_widget, self.row_number, 1)
+        layout.addWidget(container_widget)
         self.controls.append(container_widget)
-        self.row_number += 1
 
     def extend(self):
         raise NotImplementedError
@@ -172,7 +155,7 @@ class InputTable(QtWidgets.QWidget):
         widget = QtWidgets.QWidget()
         widget.setLayout(layout)
         widget.setFixedHeight(25)
-        self.layout().addWidget(widget, self.row_number)
+        self.layout().addWidget(widget)
         # finish
         self.row_number += 1
         return layout

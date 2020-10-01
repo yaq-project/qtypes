@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+- filepath support
+
+### Changed
+- moved to get/set instead of read/write
+
+### Fixed
+- spacing issues with scroll area
+
 ## [0.1.0]
 
 ### Added

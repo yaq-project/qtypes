@@ -1,4 +1,4 @@
-__all__ = ["Number"]
+__all__ = ["Number", "NumberLimits"]
 
 
 import math
@@ -19,8 +19,8 @@ class NumberLimits(Base):
         super().__init__(value=[min_value, max_value])
         self.units = units
 
-    def read(self, output_units="same"):
-        min_value, max_value = self.value.read()
+    def get(self, output_units="same"):
+        min_value, max_value = self.value.get()
         if output_units == "same":
             pass
         else:
@@ -33,7 +33,7 @@ class NumberLimits(Base):
         ]
         return [min_value, max_value]
 
-    def write(self, min_value, max_value, input_units="same"):
+    def set(self, min_value, max_value, input_units="same"):
         if input_units == "same":
             pass
         else:
@@ -44,7 +44,7 @@ class NumberLimits(Base):
             min([min_value, max_value]),
             max([min_value, max_value]),
         ]
-        self.value.write([min_value, max_value])
+        self.value.set([min_value, max_value])
         self.updated.emit()
 
 
@@ -86,7 +86,7 @@ class Number(Base):
         self.limits.updated.connect(self._set_limits)
 
     def _set_limits(self):
-        min_value, max_value = self.limits.read()
+        min_value, max_value = self.limits.get()
         limits_units = self.limits.units
         min_value = converter(min_value, limits_units, self.units)
         max_value = converter(max_value, limits_units, self.units)
@@ -106,18 +106,18 @@ class Number(Base):
     def convert(self, destination_units):
         # value
         self.value.lock()
-        old_val = self.value.read()
+        old_val = self.value.get()
         new_val = converter(old_val, self.units, str(destination_units))
         self.value.unlock()
-        self.value.write(new_val)
+        self.value.set(new_val)
         # commit and signal
         self.units = str(destination_units)
         self._set_limits()
         self.units_updated.emit()
         self.updated.emit()
 
-    def read(self, output_units="same"):
-        value = super().read()
+    def get(self, output_units="same"):
+        value = super().get()
         if output_units == "same":
             pass
         else:
@@ -151,17 +151,17 @@ class Number(Base):
 
     def set_widget(self):
         # special value text is displayed when widget is at minimum
-        if math.isnan(self.value.read()):
+        if math.isnan(self.value.get()):
             self.widget.setSpecialValueText("nan")
             self.widget.setValue(self.widget.minimum())
         else:
             self.widget.setSpecialValueText("")
-            self.widget.setValue(self.value.read())
+            self.widget.setValue(self.value.get())
 
     def give_control(self, control_widget):
         self.widget = control_widget
         # set values
-        min_value, max_value = self.limits.read()
+        min_value, max_value = self.limits.get()
         self.widget.setMinimum(min_value)
         self.widget.setMaximum(max_value)
         self.widget.setDecimals(self.decimals)
@@ -169,7 +169,7 @@ class Number(Base):
         self.set_widget()
         # connect signals and slots
         self.updated.connect(self.set_widget)
-        self.widget.editingFinished.connect(lambda: self.write(self.widget.value()))
+        self.widget.editingFinished.connect(lambda: self.set(self.widget.value()))
         # finish
         self.widget.setToolTip(self.tool_tip)
         self.widget.setDisabled(self.disabled)
@@ -190,9 +190,9 @@ class Number(Base):
         # finish
         self.units_widget.setDisabled(self.disabled_units)
 
-    def write(self, value, units="same"):
+    def set(self, value, units="same"):
         if units == "same":
             pass
         else:
             value = converter(value, units, self.units)
-        super().write(value)
+        super().set(value)

@@ -12,9 +12,9 @@ class Enum(Base):
         self.allowed_values = list(allowed_values)
         self.data_type = type(self.allowed_values[0])
         if initial_value is None:
-            self.write(self.allowed_values[0])
+            self.set(self.allowed_values[0])
         else:
-            self.write(initial_value)
+            self.set(initial_value)
 
     def associate(self, display=None, pre_name=""):
         # display
@@ -24,23 +24,19 @@ class Enum(Base):
         name = pre_name + self.name
         # new object
         new_obj = Combo(
-            initial_value=self.read(),
+            initial_value=self.get(),
             display=display,
             allowed_values=self.allowed_values,
             name=name,
         )
         return new_obj
 
-    def read_index(self):
-        return self.allowed_values.index(self.read())
+    def get_index(self):
+        return self.allowed_values.index(self.get())
 
     def save(self, value=None):
         if value is not None:
-            self.value.write(value)
-        if self.has_ini:
-            self.ini.write(
-                self.section, self.option, self.value.read(), with_apostrophe=True
-            )
+            self.value.set(value)
 
     def set_allowed_values(self, allowed_values):
         """
@@ -61,42 +57,41 @@ class Enum(Base):
         self.allowed_values = list(allowed_values)
         # update widget
         if self.has_widget:
-            self.widget.currentIndexChanged.disconnect(self.write_from_widget)
+            self.widget.currentIndexChanged.disconnect(self.set_from_widget)
             self.widget.clear()
             allowed_values_strings = [str(value) for value in self.allowed_values]
             self.widget.addItems(allowed_values_strings)
-            self.widget.currentIndexChanged.connect(self.write_from_widget)
-        # write value again
-        if self.read() not in self.allowed_values:
+            self.widget.currentIndexChanged.connect(self.set_from_widget)
+        # set value again
+        if self.get() not in self.allowed_values:
             print(self.allowed_values)
-            self.write(list(self.allowed_values)[0])
+            self.set(list(self.allowed_values)[0])
         else:
-            self.write(self.read())
+            self.set(self.get())
 
     def set_widget(self):
         allowed_values_strings = [str(value) for value in self.allowed_values]
-        index = allowed_values_strings.index(str(self.read()))
+        index = allowed_values_strings.index(str(self.get()))
         self.widget.setCurrentIndex(index)
 
-    def write(self, value):
-        # value will be maintained as original data type
+    def set(self, value):
         value = self.data_type(value)
-        super().write(value)
+        super().set(value)
 
-    def write_from_widget(self):
+    def set_from_widget(self):
         # needs to be defined method so we can connect and disconnect
-        self.write(self.widget.currentText())
+        self.set(self.widget.currentText())
 
     def give_control(self, control_widget):
         self.widget = control_widget
         # fill out items
         allowed_values_strings = [str(value) for value in self.allowed_values]
         self.widget.addItems(allowed_values_strings)
-        if self.read() is not None:
-            self.widget.setCurrentIndex(allowed_values_strings.index(str(self.read())))
+        if self.get() is not None:
+            self.widget.setCurrentIndex(allowed_values_strings.index(str(self.get())))
         # connect signals and slots
         self.updated.connect(self.set_widget)
-        self.widget.currentIndexChanged.connect(self.write_from_widget)
+        self.widget.currentIndexChanged.connect(self.set_from_widget)
         self.widget.setToolTip(self.tool_tip)
         self.widget.setDisabled(self.disabled)
         self.has_widget = True

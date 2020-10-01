@@ -10,10 +10,10 @@ class Value(QtCore.QMutex):
         QtCore.QMutex.__init__(self)
         self.value = initial_value
 
-    def read(self):
+    def get(self):
         return self.value
 
-    def write(self, value):
+    def set(self, value):
         self.lock()
         self.value = value
         self.unlock()
@@ -37,6 +37,9 @@ class Base(QtCore.QObject):
             self.updated.emit()
         return self.value.read()
 
+    def get(self):
+        return self.value.get()
+
     def set_disabled(self, disabled):
         self.disabled = bool(disabled)
         if self.has_widget:
@@ -49,6 +52,6 @@ class Base(QtCore.QObject):
         if self.has_widget:
             self.widget.setToolTip(self.tool_tip)
 
-    def write(self, value):
-        self.value.write(value)
+    def set(self, value):
+        self.value.set(value)
         self.updated.emit()

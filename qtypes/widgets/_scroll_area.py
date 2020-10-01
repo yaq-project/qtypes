@@ -5,18 +5,21 @@ from qtpy import QtCore, QtWidgets
 
 
 class ScrollArea(QtWidgets.QScrollArea):
-    def __init__(self, show_bar=True):
+    def __init__(self):
         super().__init__()
         self.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.setFixedWidth(
+            300 + self.style().pixelMetric(QtWidgets.QStyle.PM_ScrollBarExtent) + 10
+        )
         self.setWidgetResizable(True)
-        self.setFixedWidth(320)
-        if show_bar:
-            self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.child = QtWidgets.QWidget()
-        self.child.setFixedWidth(300)
+        self.child.setFixedWidth(
+            300 + self.style().pixelMetric(QtWidgets.QStyle.PM_ScrollBarExtent) + 10
+        )
         self.child.setLayout(QtWidgets.QVBoxLayout())
-        # TODO: self.child.layout().setMargin(5)
+        self.child.layout().setMargin(0)
         self.child.layout().addStretch(1)
         self.setWidget(self.child)
 
