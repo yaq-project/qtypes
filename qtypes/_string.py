@@ -9,7 +9,7 @@ class String(Base):
 
     def __init__(self, initial_value="", *args, **kwargs):
         super().__init__(initial_value=initial_value, *args, **kwargs)
-        self.type = "string"
+        self.qtype = "string"
 
     def give_control(self, control_widget):
         self.widget = control_widget
