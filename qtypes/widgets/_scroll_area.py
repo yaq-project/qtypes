@@ -19,7 +19,7 @@ class ScrollArea(QtWidgets.QScrollArea):
             300 + self.style().pixelMetric(QtWidgets.QStyle.PM_ScrollBarExtent) + 10
         )
         self.child.setLayout(QtWidgets.QVBoxLayout())
-        self.child.layout().setMargin(0)
+        self.child.layout().setContentsMargins(0, 0, 0, 0)
         self.child.layout().addStretch(1)
         self.setWidget(self.child)
 

@@ -17,7 +17,7 @@ class InputTable(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.setLayout(QtWidgets.QVBoxLayout())
-        self.layout().setMargin(0)
+        self.layout().setContentsMargins(0, 0, 0, 0)
         self.setFixedWidth(300)
         self.row_number = 0
         self.controls = []
@@ -112,7 +112,6 @@ class InputTable(QtWidgets.QWidget):
         # layout
         container_widget = QtWidgets.QWidget()
         container_widget.setLayout(QtWidgets.QHBoxLayout())
-        container_widget.layout().setMargin(0)
         container_widget.layout().setContentsMargins(0, 0, 0, 0)
         # push button
         load_button = QtWidgets.QPushButton("Load")
@@ -149,7 +148,7 @@ class InputTable(QtWidgets.QWidget):
         )
         heading.setFixedHeight(25)
         heading.setFixedWidth(150)
-        heading.setMargin(0)
+        heading.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(heading)
         # create widget
         widget = QtWidgets.QWidget()
