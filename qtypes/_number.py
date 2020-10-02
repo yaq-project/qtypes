@@ -117,7 +117,7 @@ class Number(Base):
         self.updated.emit()
 
     def get(self, output_units="same"):
-        value = super().get()
+        value = super().__call__()
         if output_units == "same":
             pass
         else:
