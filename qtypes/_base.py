@@ -35,7 +35,7 @@ class Base(QtCore.QObject):
         if value is not None:
             self.value.write(value)
             self.updated.emit()
-        return self.value.read()
+        return self.value.get()
 
     def get(self):
         return self.value.get()
