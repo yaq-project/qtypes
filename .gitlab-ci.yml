@@ -15,10 +15,11 @@ before_script:
   - pip install -U virtualenv
   - virtualenv venv
   - source venv/bin/activate
+  - pip install -U flit
   - pip install -U pytest
   - pip install -U pyside2
   - pip install -U qtpy
-  - pip install --no-dependencies .
+  - pip install . --no-build-isolation
 
 # test stage
 .pytest: &pytest

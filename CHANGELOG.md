@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Changed
 - moved to get/set instead of read/write
+- migrate to flit
 
 ### Fixed
 - spacing issues with scroll area
