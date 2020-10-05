@@ -47,8 +47,6 @@ flit:
     - flit publish
   artifacts:
     paths:
-      - yaqc/dist/*
+      - dist/*
   only:
-    - /^yaqc-.*$/
-  except:
-    - branches
+    - tags
