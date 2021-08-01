@@ -40,8 +40,7 @@ class Base(QtCore.QObject):
     def get(self):
         return self.value.get()
 
-    def set_disabled(self, disabled):
-        self.disabled = bool(disabled)
+    def set_disabled(self, disabled: bool):
         if self.has_widget:
             self.widget.setDisabled(self.disabled)
 
