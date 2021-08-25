@@ -9,14 +9,14 @@ class ScrollArea(QtWidgets.QScrollArea):
         super().__init__()
         self.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.setFixedWidth(
-            300 + self.style().pixelMetric(QtWidgets.QStyle.PM_ScrollBarExtent) + 10
+            500 + self.style().pixelMetric(QtWidgets.QStyle.PM_ScrollBarExtent) + 10
         )
         self.setWidgetResizable(True)
         self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.child = QtWidgets.QWidget()
         self.child.setFixedWidth(
-            300 + self.style().pixelMetric(QtWidgets.QStyle.PM_ScrollBarExtent) + 10
+            500 + self.style().pixelMetric(QtWidgets.QStyle.PM_ScrollBarExtent) + 10
         )
         self.child.setLayout(QtWidgets.QVBoxLayout())
         self.child.layout().setContentsMargins(0, 0, 0, 0)

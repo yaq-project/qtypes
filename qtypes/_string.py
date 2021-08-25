@@ -18,6 +18,7 @@ class String(Base):
         # connect signals and slots
         self.updated.connect(lambda: self.widget.setText(self.value.get()))
         self.widget.editingFinished.connect(lambda: self.set(str(self.widget.text())))
+        # finish
         self.widget.setToolTip(self.tool_tip)
         self.widget.setDisabled(self.disabled)
         self.has_widget = True
