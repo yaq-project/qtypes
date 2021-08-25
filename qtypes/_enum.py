@@ -92,6 +92,7 @@ class Enum(Base):
         # connect signals and slots
         self.updated.connect(self.set_widget)
         self.widget.currentIndexChanged.connect(self.set_from_widget)
+        self.widget.activated.connect(self.edited.emit)
         self.widget.setToolTip(self.tool_tip)
         self.widget.setDisabled(self.disabled)
         self.has_widget = True

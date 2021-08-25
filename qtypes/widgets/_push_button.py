@@ -12,7 +12,7 @@ class PushButton(QtWidgets.QPushButton):
     def __init__(self, label="", background="yellow"):
         super().__init__(label)
         self.setFixedHeight(55)
-        self.setFixedWidth(300)
+        self.setFixedWidth(500)
         self.set_background(background)
 
     def set_background(self, background="yellow"):

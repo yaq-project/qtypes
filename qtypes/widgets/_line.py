@@ -23,6 +23,7 @@ class Line(QtWidgets.QFrame):
             self.setFrameShape(QtWidgets.QFrame.VLine)
         else:
             self.setFrameShape(QtWidgets.QFrame.HLine)
+            self.setMaximumHeight(2)
         StyleSheet = "QFrame{border: 2px solid custom_color; border-radius: 0px; padding: 0px;}".replace(
             "custom_color", colors["foreground"]
         )

@@ -6,11 +6,12 @@ import collections
 from qtpy import QtWidgets, QtGui
 
 from ._spin_box import DoubleSpinBox
+from ._line import Line
 
 
 # size notes for input table
 #   all rows have height of exactly 25
-#   all rows have total width of 300
+#   all rows have total width of 500
 
 
 class InputTable(QtWidgets.QWidget):
@@ -18,7 +19,7 @@ class InputTable(QtWidgets.QWidget):
         super().__init__()
         self.setLayout(QtWidgets.QVBoxLayout())
         self.layout().setContentsMargins(0, 0, 0, 0)
-        self.setFixedWidth(300)
+        self.setFixedWidth(500)
         self.row_number = 0
         self.controls = []
         self._objs = {}
@@ -46,8 +47,11 @@ class InputTable(QtWidgets.QWidget):
             self._objs[obj.name] = obj
 
     def _append_heading(self, label):
-        row_layout = self._get_row_layout(label)
-        row_layout.addStretch(1)
+        layout = self._get_row_layout(label, bold_heading=True)
+        line = Line("H")
+        line.setSizePolicy(QtWidgets.QSizePolicy.Expanding,
+                           QtWidgets.QSizePolicy.Preferred)
+        layout.addWidget(line)
 
     def _append_number(self, label, obj):
         layout = self._get_row_layout(label)
@@ -60,7 +64,7 @@ class InputTable(QtWidgets.QWidget):
         control.setFixedHeight(25)
         # units combobox
         if obj.units_kind is None:
-            control.setFixedWidth(150)
+            control.setFixedWidth(250)
         else:
             control.setFixedWidth(100)
             units = QtWidgets.QComboBox()
@@ -76,9 +80,8 @@ class InputTable(QtWidgets.QWidget):
         layout = self._get_row_layout(label)
         # control
         control = QtWidgets.QLineEdit()
-        control.setFixedWidth(150)
+        control.setFixedWidth(250)
         control.setFixedHeight(25)
-        control.setStyleSheet("margin-right:5px")
         obj.give_control(control)
         layout.addWidget(control)
         # finish
@@ -88,7 +91,7 @@ class InputTable(QtWidgets.QWidget):
         layout = self._get_row_layout(label)
         # control
         control = QtWidgets.QComboBox()
-        control.setFixedWidth(150)
+        control.setFixedWidth(250)
         control.setFixedHeight(25)
         obj.give_control(control)
         layout.addWidget(control)
@@ -136,19 +139,22 @@ class InputTable(QtWidgets.QWidget):
     def extend(self):
         raise NotImplementedError
 
-    def _get_row_layout(self, label):
+    def _get_row_layout(self, label, bold_heading=False):
         # create layout
         layout = QtWidgets.QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
         # add heading
         heading = QtWidgets.QLabel(label)
-        heading.setSizePolicy(
-            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
-        )
         heading.setFixedHeight(25)
-        heading.setFixedWidth(150)
-        heading.setContentsMargins(0, 0, 0, 0)
+        if not bold_heading:
+            heading.setSizePolicy(
+                QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+            )
+            heading.setFixedWidth(250)
+            heading.setContentsMargins(0, 0, 0, 0)
+        else:
+            heading.setContentsMargins(0, 0, 5, 0)
         layout.addWidget(heading)
         # create widget
         widget = QtWidgets.QWidget()
