@@ -22,6 +22,7 @@ class Value(QtCore.QMutex):
 class Base(QtCore.QObject):
     edited = QtCore.Signal()
     updated = QtCore.Signal()
+    edited = QtCore.Signal()
 
     def __init__(self, value=None, name="", disabled=False, *args, **kwargs):
         super().__init__()
