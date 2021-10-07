@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+- edited signal
+
 ### Fixed
 - strings disabled properly at startup
 

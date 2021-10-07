@@ -170,7 +170,7 @@ class Number(Base):
         # connect signals and slots
         self.updated.connect(self.set_widget)
         self.widget.editingFinished.connect(lambda: self.set(self.widget.value()))
-        self.widget.editingFinished.connect(lambda: self.edited.emit())
+        self.widget.editingFinished.connect(self.edited.emit)
         # finish
         self.widget.setToolTip(self.tool_tip)
         self.widget.setDisabled(self.disabled)
