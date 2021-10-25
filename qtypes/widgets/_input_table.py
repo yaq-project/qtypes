@@ -56,7 +56,7 @@ class InputTable(QtWidgets.QWidget):
     def _append_number(self, label, obj):
         layout = self._get_row_layout(label)
         # control
-        control = DoubleSpinBox()
+        control = DoubleSpinBox(parent=self)
         if obj.disabled:
             control.setDisabled(True)
         obj.give_control(control)
@@ -79,7 +79,7 @@ class InputTable(QtWidgets.QWidget):
     def _append_string(self, label, obj):
         layout = self._get_row_layout(label)
         # control
-        control = QtWidgets.QLineEdit()
+        control = QtWidgets.QLineEdit(parent=self)
         control.setFixedWidth(250)
         control.setFixedHeight(25)
         obj.give_control(control)
@@ -90,7 +90,7 @@ class InputTable(QtWidgets.QWidget):
     def _append_enum(self, label, obj):
         layout = self._get_row_layout(label)
         # control
-        control = QtWidgets.QComboBox()
+        control = QtWidgets.QComboBox(parent=self)
         control.setFixedWidth(250)
         control.setFixedHeight(25)
         obj.give_control(control)
@@ -101,7 +101,7 @@ class InputTable(QtWidgets.QWidget):
     def _append_bool(self, label, obj):
         layout = self._get_row_layout(label)
         # control
-        control = QtWidgets.QCheckBox()
+        control = QtWidgets.QCheckBox(parent=self)
         style = "QCheckBox::indicator {width:25px;height: 25px;}"
         control.setStyleSheet(style)
         obj.give_control(control)
