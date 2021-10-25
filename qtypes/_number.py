@@ -150,6 +150,8 @@ class Number(Base):
             self.convert(units)
 
     def set_widget(self):
+        if self.widget.hasFocus():
+            return
         # special value text is displayed when widget is at minimum
         if math.isnan(self.value.get()):
             self.widget.setSpecialValueText("nan")
@@ -192,7 +194,6 @@ class Number(Base):
         self.units_widget.setDisabled(self.disabled_units)
 
     def set(self, value, units="same"):
-        print("NUMBER SET", value)
         if units == "same":
             pass
         else:
