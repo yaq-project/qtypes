@@ -22,7 +22,6 @@ class Value(QtCore.QMutex):
 class Base(QtCore.QObject):
     edited = QtCore.Signal()
     updated = QtCore.Signal()
-    edited = QtCore.Signal()
 
     def __init__(self, value=None, name="", disabled=False, *args, **kwargs):
         super().__init__()
@@ -35,7 +34,7 @@ class Base(QtCore.QObject):
 
     def __call__(self, value=None, **kwargs):
         if value is not None:
-            self.value.write(value)
+            self.value.set(value)
             self.updated.emit()
         return self.value.get()
 
