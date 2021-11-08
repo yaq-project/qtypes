@@ -1,24 +1,23 @@
 __all__ = ["String"]
 
 
+from qtpy import QtCore, QtGui, QtWidgets
+
 from ._base import Base
+from ._signals import Signals
+
+
+class Widget(Signals, QtWidgets.QLineEdit):
+    pass
 
 
 class String(Base):
-    qtype = "string"
+    defaults = dict()
+    defaults["value"] = ""
 
-    def __init__(self, initial_value="", *args, **kwargs):
-        super().__init__(initial_value=initial_value, *args, **kwargs)
-        self.qtype = "string"
+    def _create_widget(self):
+        return Widget()
 
-    def give_control(self, control_widget):
-        self.widget = control_widget
-        # fill out items
-        self.widget.setText(str(self.value.get()))
-        # connect signals and slots
-        self.updated.connect(lambda: self.widget.setText(self.value.get()))
-        self.widget.editingFinished.connect(lambda: self.set(str(self.widget.text())))
-        # finish
-        self.widget.setToolTip(self.tool_tip)
-        self.widget.setDisabled(self.disabled)
-        self.has_widget = True
+    def on_updated(self, value):
+        self._value.update(value)
+        self._widget.setText(self._value["value"])

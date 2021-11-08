@@ -5,53 +5,82 @@ import qtpy
 from qtpy import QtCore, QtGui, QtWidgets
 
 
-class Value(QtCore.QMutex):
-    def __init__(self, initial_value=None):
-        QtCore.QMutex.__init__(self)
-        self.value = initial_value
-
-    def get(self):
-        return self.value
-
-    def set(self, value):
-        self.lock()
-        self.value = value
-        self.unlock()
+from ._signals import Signals
 
 
-class Base(QtCore.QObject):
-    edited = QtCore.Signal()
-    updated = QtCore.Signal()
+class Widget(Signals, QtWidgets.QLabel):
 
-    def __init__(self, value=None, name="", disabled=False, *args, **kwargs):
-        super().__init__()
-        #
-        self.has_widget = False
-        self.tool_tip = ""
-        self.value = Value(value)
-        self.disabled = disabled
-        self.name = name
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setText("this widget provided by qtypes Base class, please overload _create_widget")
 
-    def __call__(self, value=None, **kwargs):
-        if value is not None:
-            self.value.set(value)
-            self.updated.emit()
-        return self.value.get()
 
-    def get(self):
-        return self.value.get()
+class Base(QtWidgets.QTreeWidgetItem):
 
-    def set_disabled(self, disabled: bool):
-        if self.has_widget:
-            self.widget.setDisabled(self.disabled)
+    def __init__(self, label="", disabled=False, value={}):
+        super().__init__([label, ""])
+        self._value = self.defaults.copy()
+        self._value.update(value)
+        self._widget = self._create_widget()
+        self.children = []
+        # signals and slots
+        self.updated.connect(self.on_updated)
+        self.updated.emit(self._value)
+        self.disabled.connect(self.on_disabled)
+        self.disabled.emit(disabled)
 
-    setDisabled = set_disabled  # for qt inheritence reasons
+    def __getitem__(self, index):
+        if index < 0:
+            index = self.childCount() + index
+        return self.child(index)
 
-    def set_tool_tip(self, tool_tip):
-        self.tool_tip = str(tool_tip)
-        if self.has_widget:
-            self.widget.setToolTip(self.tool_tip)
+    def append(self, item):
+        self.addChild(item)
+        if isinstance(item, Base):
+            widget = item._widget
+            widget.setParent(self.treeWidget())
+            self.treeWidget().setItemWidget(item, 1, widget)
+            self.children.append(item)
 
-    def set(self, value):
-        self.value.set(value)
-        self.updated.emit()
+    def _create_widget(self):
+        return Widget()
+
+    @property
+    def disabled(self):
+        return self._widget.disabled
+
+    def get(self) -> dict:
+        return self._value
+
+    @property
+    def label(self):
+        return self.text(0)
+
+    @label.setter
+    def label(self, value: str):
+        self.setText(0, value)
+
+    def on_disabled(self, value: bool):
+        self._widget.setDisabled(value)
+
+    def on_edited(self, value: object):
+        if value != self._value:
+            self._value["value"] = value
+            self.updated.emit(self.get())
+
+    def on_updated(self, value: dict):
+        raise NotImplementedError
+
+    def set(self, value: object):
+        # TODO: diff check
+        self._value.update(value)
+        self.updated.emit(self._value)
+
+    def set_value(self, value: object):
+        if value != self._value["value"]:
+            self._value["value"] = value
+            self.updated.emit(self._value)
+
+    @property
+    def updated(self):
+        return self._widget.updated
