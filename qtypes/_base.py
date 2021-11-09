@@ -49,8 +49,15 @@ class Base(QtWidgets.QTreeWidgetItem):
     def disabled(self):
         return self._widget.disabled
 
+    @property
+    def edited(self):
+        return self._widget.edited
+
     def get(self) -> dict:
         return self._value
+
+    def get_value(self) -> object:
+        return self._value["value"]
 
     @property
     def label(self):
@@ -62,11 +69,6 @@ class Base(QtWidgets.QTreeWidgetItem):
 
     def on_disabled(self, value: bool):
         self._widget.setDisabled(value)
-
-    def on_edited(self, value: object):
-        if value != self._value:
-            self._value["value"] = value
-            self.updated.emit(self.get())
 
     def on_updated(self, value: dict):
         raise NotImplementedError

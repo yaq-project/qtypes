@@ -15,7 +15,7 @@ class Button(Base):
     defaults = dict()
 
     def _create_widget(self):
-        self._widget = Widget("temporary button text")
+        self._widget = Widget("button")
         self._widget.clicked.connect(self._on_clicked)
         return self._widget
 

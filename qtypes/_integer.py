@@ -13,12 +13,26 @@ class Widget(Signals, QtWidgets.QSpinBox):
 
 class Integer(Base):
     defaults = dict()
-    defaults["value"] = float("nan")
-    defaults["minimum"] = float("-inf")
-    defaults["maximum"] = float("inf")
+    defaults["value"] = 0
+    defaults["minimum"] = -2**31
+    defaults["maximum"] = 2**31 - 1
 
     def _create_widget(self):
-        return Widget()
+        widget = Widget()
+        widget.editingFinished.connect(self.on_edited)
+        return widget
+
+    def on_edited(self):
+        if self._widget.value() != self._value["value"]:
+            self._value["value"] = self._widget.value()
+            self.edited.emit(self._value)
+            self.updated.emit(self._value)
 
     def on_updated(self, value):
-        pass  # TODO:
+        # minimum, maximum
+        self._widget.setMinimum(self._value["minimum"])
+        self._widget.setMaximum(self._value["maximum"])
+        # value
+        self._widget.setValue(self._value["value"])
+        # tool tip
+        self._widget.setToolTip(f"minimum:{value['minimum']}\nmaximum:{value['maximum']}")

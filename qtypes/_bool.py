@@ -16,8 +16,18 @@ class Bool(Base):
     defaults["value"] = False
 
     def _create_widget(self):
-        return Widget()
+        widget = Widget()
+        widget.stateChanged.connect(self.on_state_changed)
+        return widget
+
+    def on_state_changed(self, new):
+        self._value["value"] = bool(new)
+        self.edited.emit(self._value)
+        self.updated.emit(self._value)
 
     def on_updated(self, value):
+        self._widget.stateChanged.disconnect(self.on_state_changed)
         self._value.update(value)
         self._widget.setChecked(self._value["value"])
+        self._widget.stateChanged.connect(self.on_state_changed)
+
