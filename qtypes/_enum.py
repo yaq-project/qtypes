@@ -13,11 +13,31 @@ class Widget(Signals, QtWidgets.QComboBox):
 
 class Enum(Base):
     defaults = dict()
-    defaults["value"] = None
-    defaults["allowed"] = []
+    defaults["value"] = ""
+    defaults["allowed"] = [""]
 
     def _create_widget(self):
-        return Widget()
+        widget = Widget()
+        widget.currentTextChanged.connect(self.on_current_text_changed)
+        self._widget = widget
+        self.on_updated(self._value)
+        return widget
+
+    def on_current_text_changed(self, new):
+        self._value["value"] = new
+        self.edited.emit(self._value)
+        self.updated.emit(self._value)
 
     def on_updated(self, value):
-        pass  # TODO:
+        self._widget.currentTextChanged.disconnect(self.on_current_text_changed)
+
+        # allowed
+        all_items = [self._widget.itemText(i) for i in range(self._widget.count())]
+        if self._value["allowed"] != all_items:
+            self._widget.clear()
+            self._widget.addItems(self._value["allowed"])
+        # value
+        index = self._value["allowed"].index(self._value["value"])
+        self._widget.setCurrentIndex(index)
+
+        self._widget.currentTextChanged.connect(self.on_current_text_changed)

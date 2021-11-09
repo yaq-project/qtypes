@@ -57,8 +57,11 @@ class Float(Base):
         self._widget.combo_box.setDisabled(False)
 
     def on_edited(self):
-        self._value["value"] = self._widget.spin_box.value()
-        self.updated.emit(self._value)
+        new = self._widget.spin_box.value()
+        if not math.isclose(self._value["value"], new):
+            self._value["value"] = new
+            self.edited.emit(self._value)
+            self.updated.emit(self._value)
 
     def on_updated(self, value):
         """
@@ -85,6 +88,7 @@ class Float(Base):
         # minimum, maximum
         self._widget.spin_box.setMinimum(self._value["minimum"])
         self._widget.spin_box.setMaximum(self._value["maximum"])
+        # tool tip
         self._widget.spin_box.setToolTip(f"minimum:{value['minimum']}\nmaximum:{value['maximum']}")
         # decimals
         self._widget.spin_box.setDecimals(self._value["decimals"])
