@@ -11,6 +11,55 @@ Build qt graphical user interfaces out of simple type objects.
 
 TODO
 
+## Types
+
+### Bool
+
+```
+value: bool
+```
+
+### Button
+
+```
+value: None
+background_color: str
+text: str
+text_color: str
+```
+
+### Enum
+```
+value: str
+allowed: List[str]
+```
+
+### Float
+
+```
+value: double
+units: str
+minimum: double
+maximum: double
+decimals: int
+```
+
+Note that units support works via [pint](https://pint.readthedocs.io)
+
+### Integer
+
+```
+value: int
+minimum: int
+maximum: int
+```
+
+### String
+
+```
+value: str
+```
+
 ## Examples
 
 `qtypes` comes with a few examples right out of the box.
