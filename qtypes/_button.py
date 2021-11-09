@@ -13,14 +13,19 @@ class Widget(Signals, QtWidgets.QPushButton):
 
 class Button(Base):
     defaults = dict()
+    defaults["value"] = None
+    defaults["background_color"] = None
+    defaults["text"] = "button"
+    defaults["text_color"] = None
 
     def _create_widget(self):
-        self._widget = Widget("button")
+        self._widget = Widget(self._value["text"])
         self._widget.clicked.connect(self._on_clicked)
         return self._widget
 
     def _on_clicked(self):
-        self.updated.emit({})
+        self.edited.emit(self._value)
+        self.updated.emit(self._value)
 
     def on_updated(self, value):
-        pass  # TODO:
+        self._widget.setText(self._value["text"])
