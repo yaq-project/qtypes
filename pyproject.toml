@@ -8,10 +8,8 @@ author = "Blaise Thompson"
 author-email = "blaise@untzag.com"
 home-page = "https://gitlab.com/yaq/qtypes"
 description-file = "README.md"
-requires = ["toml",
-            "qtpy",
+requires = ["qtpy",
 	    "pint",
-	    "yaq_traits",
 	    ]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
