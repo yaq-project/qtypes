@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.3.1]
+
+### Changed
+- removed suprious dependency toml
+- removed suprious dependency yaq_traits
+
 ## [0.3.0]
 
 ### Changed
@@ -33,7 +39,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://gitlab.com/yaq/qtypes/-/compare/v0.3.0...main
+[Unreleased]: https://gitlab.com/yaq/qtypes/-/compare/v0.3.1...main
+[0.3.1]: https://gitlab.com/yaq/qtypes/-/compare/v0.3.0...v0.3.1
 [0.3.0]: https://gitlab.com/yaq/qtypes/-/compare/v0.2.0...v0.3.0
 [0.2.0]: https://gitlab.com/yaq/qtypes/-/compare/v0.1.0...v0.2.0
 [0.1.0]: https://gitlab.com/yaq/qtypes/-/tags/v0.1.0
