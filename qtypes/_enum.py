@@ -37,6 +37,8 @@ class Enum(Base):
             self._widget.clear()
             self._widget.addItems(self._value["allowed"])
         # value
+        if self._value["value"] not in self._value["allowed"]:
+            self._value["value"] = self._value["allowed"][0]
         index = self._value["allowed"].index(self._value["value"])
         self._widget.setCurrentIndex(index)
 
