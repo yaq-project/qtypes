@@ -35,6 +35,12 @@ before_script:
 pytest-latest:
   image: python:latest
   <<: *pytest
+pytest-3.10:
+  image: python:3.10
+  <<: *pytest
+pytest-3.9:
+  image: python:3.9
+  <<: *pytest
 pytest-3.8:
   image: python:3.8
   <<: *pytest
