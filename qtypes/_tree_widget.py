@@ -21,7 +21,7 @@ class TreeWidget(QtWidgets.QTreeWidget):
         self.setHeaderLabels(["", ""])
         sheets = list(styles["tomorrow-night"].values())
         self.setStyleSheet("".join(sheets))
-        self.setColumnWidth(width/2, width/2)
+        self.setColumnWidth(width//2, width//2)
         self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.children = []
