@@ -68,6 +68,8 @@ class Float(Base):
         Must recieve complete and self-consistent dictionary.
         Updates state of widget
         """
+        if self._widget.spin_box.hasFocus():
+            return
         # value
         if math.isnan(value["value"]):
             self._widget.spin_box.setSpecialValueText("nan")
