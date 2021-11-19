@@ -114,9 +114,10 @@ def converter(val, current_unit, destination_unit):
     try:
         val = ureg.Quantity(val, current_unit).to(destination_unit).magnitude
     except (pint.errors.DimensionalityError, pint.errors.UndefinedUnitError, AttributeError):
-        warnings.warn(
-            f"conversion {current_unit} to {destination_unit} not valid: returning input"
-        )
+        if current_unit is not None and destination_unit is not None:
+            warnings.warn(
+                f"conversion {current_unit} to {destination_unit} not valid: returning input"
+            )
     except ZeroDivisionError:
         warnings.warn(
             f"conversion {current_unit} to {destination_unit} resulted in ZeroDivisionError: returning inf"

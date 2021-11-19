@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Changed
+- quieter warnings
+
 ### Fixed
 - enum type now defaults to first allowed if current value not in new allowed list
 - float widget avoids updating when set while user has focus
