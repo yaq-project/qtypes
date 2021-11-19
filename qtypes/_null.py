@@ -17,3 +17,6 @@ class Null(Base):
 
     def _create_widget(self):
         return Widget()
+
+    def on_updated(self, value: dict):
+        pass
