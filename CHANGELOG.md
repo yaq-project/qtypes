@@ -54,7 +54,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://gitlab.com/yaq/qtypes/-/compare/v0.3.2...main
+[Unreleased]: https://gitlab.com/yaq/qtypes/-/compare/v2022.1.0...main
+[2022.1.0]: https://gitlab.com/yaq/qtypes/-/compare/v0.3.2...v2022.1.0
 [0.3.2]: https://gitlab.com/yaq/qtypes/-/compare/v0.3.1...v0.3.2
 [0.3.1]: https://gitlab.com/yaq/qtypes/-/compare/v0.3.0...v0.3.1
 [0.3.0]: https://gitlab.com/yaq/qtypes/-/compare/v0.2.0...v0.3.0
