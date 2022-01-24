@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2022.1.0]
+
+### Changed
+- switched to calver
+
 ## [0.3.2]
 
 ### Changed
