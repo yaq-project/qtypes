@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Changed
+- Reset default allowed values for enum if allowed values list is empty
+
 ## [2022.1.0]
 
 ### Changed

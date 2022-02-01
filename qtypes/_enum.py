@@ -31,6 +31,10 @@ class Enum(Base):
     def on_updated(self, value):
         self._widget.currentTextChanged.disconnect(self.on_current_text_changed)
 
+        if not self._value["allowed"]:
+            # If now allowed values are given, reset to default
+            self._value["allowed"] = self.defaults["allowed"]
+
         # allowed
         all_items = [self._widget.itemText(i) for i in range(self._widget.count())]
         if self._value["allowed"] != all_items:
