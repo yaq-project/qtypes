@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Fixed
+- ints and strings avoid updating value when set while user has focus
+- floats adjusted to update limits and tooltip even when focused
+
 ## [2022.1.1]
 
 ### Changed

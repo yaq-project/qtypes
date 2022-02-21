@@ -68,15 +68,6 @@ class Float(Base):
         Must recieve complete and self-consistent dictionary.
         Updates state of widget
         """
-        if self._widget.spin_box.hasFocus():
-            return
-        # value
-        if math.isnan(value["value"]):
-            self._widget.spin_box.setSpecialValueText("nan")
-            self._widget.spin_box.setValue(self._widget.spin_box.minimum())
-        else:
-            self._widget.spin_box.setSpecialValueText("")
-            self._widget.spin_box.setValue(value["value"])
         # units
         if value["units"] is not None and len(self.allowed_units) == 0:
             self._widget.combo_box.currentIndexChanged.disconnect(self.on_combo_changed)
@@ -94,6 +85,15 @@ class Float(Base):
         self._widget.spin_box.setToolTip(f"minimum:{value['minimum']}\nmaximum:{value['maximum']}")
         # decimals
         self._widget.spin_box.setDecimals(self._value["decimals"])
+        if not self._widget.spin_box.hasFocus():
+            # value
+            if math.isnan(value["value"]):
+                self._widget.spin_box.setSpecialValueText("nan")
+                self._widget.spin_box.setValue(self._widget.spin_box.minimum())
+            else:
+                self._widget.spin_box.setSpecialValueText("")
+                self._widget.spin_box.setValue(value["value"])
+
 
     def set(self, value: dict):
         # TODO: diff check
