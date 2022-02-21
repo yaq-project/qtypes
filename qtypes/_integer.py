@@ -32,7 +32,10 @@ class Integer(Base):
         # minimum, maximum
         self._widget.setMinimum(self._value["minimum"])
         self._widget.setMaximum(self._value["maximum"])
-        # value
-        self._widget.setValue(self._value["value"])
         # tool tip
         self._widget.setToolTip(f"minimum:{value['minimum']}\nmaximum:{value['maximum']}")
+        # Avoid overwriting when user is editing
+        if self._widget.hasFocus():
+            return
+        # value
+        self._widget.setValue(self._value["value"])

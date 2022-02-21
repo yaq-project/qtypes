@@ -28,5 +28,7 @@ class String(Base):
             self.updated.emit(self._value)
 
     def on_updated(self, value):
+        if self._widget.hasFocus():
+            return
         self._value.update(value)
         self._widget.setText(self._value["value"])
