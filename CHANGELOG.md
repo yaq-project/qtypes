@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2022.2.0]
+
 ### Fixed
 - ints and strings avoid updating value when set while user has focus
 - floats adjusted to update limits and tooltip even when focused
@@ -63,7 +65,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://gitlab.com/yaq/qtypes/-/compare/v2022.1.1...main
+[Unreleased]: https://gitlab.com/yaq/qtypes/-/compare/v2022.2.0...main
+[2022.2.0]: https://gitlab.com/yaq/qtypes/-/compare/v2022.1.1...v2022.2.0
 [2022.1.1]: https://gitlab.com/yaq/qtypes/-/compare/v2022.1.0...v2022.1.1
 [2022.1.0]: https://gitlab.com/yaq/qtypes/-/compare/v0.3.2...v2022.1.0
 [0.3.2]: https://gitlab.com/yaq/qtypes/-/compare/v0.3.1...v0.3.2
