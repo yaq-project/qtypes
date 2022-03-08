@@ -83,9 +83,9 @@ class Float(Base):
         self._widget.spin_box.setMaximum(self._value["maximum"])
         # tool tip
         self._widget.spin_box.setToolTip(f"minimum:{value['minimum']}\nmaximum:{value['maximum']}")
-        # decimals
-        self._widget.spin_box.setDecimals(self._value["decimals"])
         if not self._widget.spin_box.hasFocus():
+            # decimals
+            self._widget.spin_box.setDecimals(self._value["decimals"])
             # value
             if math.isnan(value["value"]):
                 self._widget.spin_box.setSpecialValueText("nan")

@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Changed
+- one of each example has a bool added to togle a timer to update the values periodically
+
+### Fixed
+- floats no longer try to set the decimals while editing
+
 ## [2022.2.0]
 
 ### Fixed

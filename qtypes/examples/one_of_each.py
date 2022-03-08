@@ -7,7 +7,7 @@ import random
 
 
 import qtypes
-from qtpy import QtWidgets, QtGui
+from qtpy import QtWidgets, QtGui, QtCore
 from qtypes._base import Base
 
 
@@ -65,6 +65,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
             qtypes.Enum("enum", value={"value": "red", "allowed": ["red", "blue", "green"]})
         )
         self.tree_widget.append(qtypes.Float("float"))
+        self.tree_widget.append(qtypes.Float("float with units", value={"units": "nm", "minimum": 400, "maximum": 800}))
         self.tree_widget.append(qtypes.Integer("integer"))
         self.tree_widget.append(qtypes.String("string"))
 
@@ -73,12 +74,17 @@ class MyMainWindow(QtWidgets.QMainWindow):
 
         self.tree_widget.append(qtypes.Button("change all programmatically"))
         self.tree_widget[-1].updated.connect(self.change_all)
+        self.tree_widget.append(qtypes.Bool("update every second"))
+        self.tree_widget[-1].updated.connect(self.toggle_timer)
 
         self.tree_widget.expandAll()
         self.tree_widget.resizeColumnToContents(0)
         self.setCentralWidget(self.tree_widget)
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.change_all)
+        self.timer.setInterval(1000)
 
-    def change_all(self, _):
+    def change_all(self, _=None):
         # bool
         self.tree_widget[0].set_value(not self.tree_widget[0].get_value())
         # button
@@ -89,11 +95,21 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.tree_widget[2].set_value(current["allowed"][new_index])
         # float
         self.tree_widget[3].set_value(random.uniform(-100, 100))
+        fl = self.tree_widget[4]
+        val = fl.get()
+        fl.set_value(random.uniform(val["minimum"], val["maximum"]))
         # integer
-        self.tree_widget[4].set_value(random.randrange(-100, 100))
+        self.tree_widget[5].set_value(random.randrange(-100, 100))
         # string
         length = random.randint(5, 30)
-        self.tree_widget[5].set_value(random_string(length))
+        self.tree_widget[6].set_value(random_string(length))
+
+    def toggle_timer(self, toggle):
+        if toggle["value"]:
+            self.timer.start()
+        else:
+            self.timer.stop()
+
 
 
 def one_of_each():
