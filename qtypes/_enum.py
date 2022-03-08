@@ -1,5 +1,6 @@
 __all__ = ["Enum"]
 
+from typing import Any, Dict
 
 from qtpy import QtCore, QtGui, QtWidgets
 
@@ -12,7 +13,7 @@ class Widget(Signals, QtWidgets.QComboBox):
 
 
 class Enum(Base):
-    defaults = dict()
+    defaults: Dict[str, Any] = dict()
     defaults["value"] = ""
     defaults["allowed"] = [""]
 

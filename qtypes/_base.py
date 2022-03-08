@@ -9,14 +9,12 @@ from ._signals import Signals
 
 
 class Widget(Signals, QtWidgets.QLabel):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setText("this widget provided by qtypes Base class, please overload _create_widget")
 
 
 class Base(QtWidgets.QTreeWidgetItem):
-
     def __init__(self, label="", disabled=False, value={}):
         super().__init__([label, ""])
         self._value = self.defaults.copy()

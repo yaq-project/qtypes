@@ -1,5 +1,6 @@
 __all__ = ["Null"]
 
+from typing import Any, Dict
 
 from qtpy import QtWidgets, QtGui
 
@@ -12,7 +13,7 @@ class Widget(Signals, QtWidgets.QWidget):
 
 
 class Null(Base):
-    defaults = dict()
+    defaults: Dict[str, Any] = dict()
     defaults["value"] = None
 
     def _create_widget(self):

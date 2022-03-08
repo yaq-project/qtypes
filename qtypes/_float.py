@@ -2,6 +2,7 @@ __all__ = ["Float"]
 
 
 import math
+from typing import Any, Dict
 
 from qtpy import QtWidgets, QtGui
 
@@ -11,7 +12,6 @@ from ._units import converter, get_valid_conversions
 
 
 class Widget(Signals, QtWidgets.QWidget):
-
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         # build widget
@@ -26,7 +26,7 @@ class Widget(Signals, QtWidgets.QWidget):
 
 
 class Float(Base):
-    defaults = dict()
+    defaults: Dict[str, Any] = dict()
     defaults["value"] = float("nan")
     defaults["units"] = None
     defaults["minimum"] = float("-inf")
@@ -94,16 +94,19 @@ class Float(Base):
                 self._widget.spin_box.setSpecialValueText("")
                 self._widget.spin_box.setValue(value["value"])
 
-
-    def set(self, value: dict):
+    def set(self, value):
         # TODO: diff check
         if "units" in value.keys():
             new = value["units"]
             old = self._value["units"]
             if "value" not in value.keys():
                 value["value"] = converter(self._value["value"], old, new)
-            new_min, new_max = sorted([converter(self._value["minimum"], old, new),
-                                       converter(self._value["maximum"], old, new)])
+            new_min, new_max = sorted(
+                [
+                    converter(self._value["minimum"], old, new),
+                    converter(self._value["maximum"], old, new),
+                ]
+            )
             if "minimum" not in value.keys():
                 value["minimum"] = new_min
             if "maximum" not in value.keys():

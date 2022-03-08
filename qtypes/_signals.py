@@ -1,7 +1,7 @@
 from qtpy import QtCore, QtGui, QtWidgets
 
 
-class Signals():
+class Signals:
     disabled = QtCore.Signal(bool)
     edited = QtCore.Signal(dict)  # when user is finished editing widget
     updated = QtCore.Signal(dict)  # any time value changes

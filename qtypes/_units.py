@@ -4,6 +4,7 @@
 # --- import --------------------------------------------------------------------------------------
 
 
+from typing import Optional
 import warnings
 
 import pint
@@ -129,7 +130,7 @@ def converter(val, current_unit, destination_unit):
 convert = converter
 
 
-def get_symbol(units) -> str:
+def get_symbol(units) -> Optional[str]:
     """Get default symbol type.
 
     Parameters

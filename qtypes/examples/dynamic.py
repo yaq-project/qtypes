@@ -12,14 +12,13 @@ from qtypes._base import Base
 
 
 class MyMainWindow(QtWidgets.QMainWindow):
-
     def __init__(self):
         super().__init__()
         self.setWindowTitle("dynamic")
         self.tree_widget = qtypes.TreeWidget()
 
         allowed = ["choose", "TODO"]
-        self.add_item_enum = qtypes.Enum("add item", value={"value":"choose", "allowed":allowed})
+        self.add_item_enum = qtypes.Enum("add item", value={"value": "choose", "allowed": allowed})
         self.tree_widget.append(self.add_item_enum)
 
         self.setCentralWidget(self.tree_widget)
