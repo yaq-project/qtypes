@@ -30,4 +30,3 @@ class Bool(Base):
         self._value.update(value)
         self._widget.setChecked(self._value["value"])
         self._widget.stateChanged.connect(self.on_state_changed)
-

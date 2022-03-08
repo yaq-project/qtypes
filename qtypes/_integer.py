@@ -14,7 +14,7 @@ class Widget(Signals, QtWidgets.QSpinBox):
 class Integer(Base):
     defaults = dict()
     defaults["value"] = 0
-    defaults["minimum"] = -2**31
+    defaults["minimum"] = -(2**31)
     defaults["maximum"] = 2**31 - 1
 
     def _create_widget(self):

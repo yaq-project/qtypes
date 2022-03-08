@@ -1,6 +1,8 @@
 __all__ = ["Button"]
 
 
+from typing import Any, Dict
+
 from qtpy import QtWidgets, QtGui
 
 from ._base import Base
@@ -12,7 +14,7 @@ class Widget(Signals, QtWidgets.QPushButton):
 
 
 class Button(Base):
-    defaults = dict()
+    defaults: Dict[str, Any] = dict()
     defaults["value"] = None
     defaults["background_color"] = None
     defaults["text"] = "button"

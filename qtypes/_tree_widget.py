@@ -14,14 +14,13 @@ __here__ = pathlib.Path(__file__).parent
 
 
 class TreeWidget(QtWidgets.QTreeWidget):
-
     def __init__(self, *, parent=None, width=250):
         super().__init__(parent=parent)
         self.setColumnCount(2)
         self.setHeaderLabels(["", ""])
         sheets = list(styles["tomorrow-night"].values())
         self.setStyleSheet("".join(sheets))
-        self.setColumnWidth(width//2, width//2)
+        self.setColumnWidth(width // 2, width // 2)
         self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.children = []

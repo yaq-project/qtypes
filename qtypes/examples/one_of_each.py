@@ -17,36 +17,43 @@ def random_string(n):
         random_integer = random.randint(97, 97 + 26 - 1)
         flip_bit = random.randint(0, 1)  # Convert to lowercase if the flip bit is on
         random_integer = random_integer - 32 if flip_bit == 1 else random_integer
-        out += (chr(random_integer))
+        out += chr(random_integer)
     return out
 
 
 def append_inspection_widgets(root):
     # string representing value
     root.append(qtypes.String("value", disabled=True))
+
     def on_updated(value, item):
         item.set_value(str(value))
+
     root.updated.connect(functools.partial(on_updated, item=root[0]))
     on_updated(root.get(), root[0])
     # disable checkbox
     root.append(qtypes.Bool("disabled"))
+
     def on_updated(value, item):
         item.disabled.emit(value["value"])
+
     root[1].updated.connect(functools.partial(on_updated, item=root))
     # updated counter
     root.append(qtypes.Integer("updated count", disabled=True))
+
     def on_updated(_, item):
         item.set_value(item.get_value() + 1)
+
     root.updated.connect(functools.partial(on_updated, item=root[-1]))
     # edited counter
     root.append(qtypes.Integer("edited count", disabled=True))
+
     def on_edited(_, item):
         item.set_value(item.get_value() + 1)
+
     root.edited.connect(functools.partial(on_edited, item=root[-1]))
 
 
 class MyMainWindow(QtWidgets.QMainWindow):
-
     def __init__(self):
         super().__init__()
         self.setWindowTitle("one of each")
@@ -54,7 +61,9 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.tree_widget = qtypes.TreeWidget()
         self.tree_widget.append(qtypes.Bool("bool"))
         self.tree_widget.append(qtypes.Button("button"))
-        self.tree_widget.append(qtypes.Enum("enum", value={"value": "red", "allowed":["red", "blue", "green"]}))
+        self.tree_widget.append(
+            qtypes.Enum("enum", value={"value": "red", "allowed": ["red", "blue", "green"]})
+        )
         self.tree_widget.append(qtypes.Float("float"))
         self.tree_widget.append(qtypes.Integer("integer"))
         self.tree_widget.append(qtypes.String("string"))

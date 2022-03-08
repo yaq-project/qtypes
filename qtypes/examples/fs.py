@@ -10,7 +10,6 @@ from qtypes._base import Base
 
 
 class MyMainWindow(QtWidgets.QMainWindow):
-
     def __init__(self):
         super().__init__()
         self.setWindowTitle("qtypes fs test")
@@ -49,7 +48,6 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.tree_widget[4]._widget.disabled.emit(self._disabled)
         self.tree_widget[5]._widget.disabled.emit(self._disabled)
         self.tree_widget[6]._widget.disabled.emit(self._disabled)
-
 
 
 def fs():
