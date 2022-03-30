@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+- insert method to TreeWidget and Base to insert at positions other than the end
+
 ### Fixed
 - Use posix style path in qss when dynamically replaced with the relative path
 
