@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Fixed
+- Use posix style path in qss when dynamically replaced with the relative path
+
 ## [2022.3.0]
 
 ### Changed
