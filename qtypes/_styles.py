@@ -16,4 +16,4 @@ for path in styles_dir.glob("**/*.qss"):
         styles[name] = dict()
     key = path.stem
     with open(path) as f:
-        styles[name][key] = f.read().replace("%__here__%", str(path.parent))
+        styles[name][key] = f.read().replace("%__here__%", path.parent.as_posix())
