@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2022.3.1]
+
 ### Added
 - insert method to TreeWidget and Base to insert at positions other than the end
 
@@ -79,7 +81,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://gitlab.com/yaq/qtypes/-/compare/v2022.3.0...main
+[Unreleased]: https://gitlab.com/yaq/qtypes/-/compare/v2022.3.1...main
+[2022.3.1]: https://gitlab.com/yaq/qtypes/-/compare/v2022.3.0...v2022.3.1
 [2022.3.0]: https://gitlab.com/yaq/qtypes/-/compare/v2022.2.0...v2022.3.0
 [2022.2.0]: https://gitlab.com/yaq/qtypes/-/compare/v2022.1.1...v2022.2.0
 [2022.1.1]: https://gitlab.com/yaq/qtypes/-/compare/v2022.1.0...v2022.1.1
