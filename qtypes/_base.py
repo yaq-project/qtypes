@@ -40,6 +40,11 @@ class Base(QtWidgets.QTreeWidgetItem):
             self.treeWidget().setItemWidget(item, 1, widget)
             self.children.append(item)
 
+    def clear(self):
+        while self.children:
+            child = self.children.pop(0)
+            self.takeChild(0)
+
     def insert(self, index, item):
         if index < 0:
             index += self.childCount()

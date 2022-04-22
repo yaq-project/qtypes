@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+- new method "clear" to TreeWidget, TreeItems
+
 ## [2022.3.1]
 
 ### Added
