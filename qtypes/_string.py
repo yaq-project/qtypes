@@ -1,14 +1,7 @@
 __all__ = ["String"]
 
 
-from qtpy import QtCore, QtGui, QtWidgets
-
 from ._base import Base
-from ._signals import Signals
-
-
-class Widget(Signals, QtWidgets.QLineEdit):
-    pass
 
 
 class String(Base):

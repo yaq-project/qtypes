@@ -1,14 +1,7 @@
 __all__ = ["Integer"]
 
 
-from qtpy import QtWidgets, QtGui
-
 from ._base import Base
-from ._signals import Signals
-
-
-class Widget(Signals, QtWidgets.QSpinBox):
-    pass
 
 
 class Integer(Base):

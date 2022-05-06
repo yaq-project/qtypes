@@ -1,15 +1,9 @@
 __all__ = ["Enum"]
 
+
 from typing import Any, Dict
 
-from qtpy import QtCore, QtGui, QtWidgets
-
 from ._base import Base
-from ._signals import Signals
-
-
-class Widget(Signals, QtWidgets.QComboBox):
-    pass
 
 
 class Enum(Base):

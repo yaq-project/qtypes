@@ -3,14 +3,7 @@ __all__ = ["Button"]
 
 from typing import Any, Dict
 
-from qtpy import QtWidgets, QtGui
-
 from ._base import Base
-from ._signals import Signals
-
-
-class Widget(Signals, QtWidgets.QPushButton):
-    pass
 
 
 class Button(Base):

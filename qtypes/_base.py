@@ -1,104 +1,59 @@
 __all__ = ["Base"]
 
 
+from dataclasses import dataclass
+from typing import Any, List
+
 import qtpy
 from qtpy import QtCore, QtGui, QtWidgets
 
 
-from ._signals import Signals
-
-
-class Widget(Signals, QtWidgets.QLabel):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.setText("this widget provided by qtypes Base class, please overload _create_widget")
-
-
-class Base(QtWidgets.QTreeWidgetItem):
-    def __init__(self, label="", disabled=False, value={}):
-        super().__init__([label, ""])
-        self._value = self.defaults.copy()
-        self._value.update(value)
-        self._widget = self._create_widget()
+class Base:
+    def __init__(self, label="", value=None, disabled=False):
+        self._data = dict()
+        self._data["value"] = value
+        self._data["disabled"] = disabled
+        self._data["label"] = label
         self.children = []
-        # signals and slots
-        self.updated.connect(self.on_updated)
-        self.updated.emit(self._value)
-        self.disabled.connect(self.on_disabled)
-        self.disabled.emit(disabled)
+        self._updated_callbacks = [self._on_updated]
+        self._edited_callbacks = []
 
     def __getitem__(self, index):
-        if index < 0:
-            index = self.childCount() + index
-        return self.child(index)
+        return self.children[index]
 
     def append(self, item):
-        self.addChild(item)
-        if isinstance(item, Base):
-            widget = item._widget
-            widget.setParent(self.treeWidget())
-            self.treeWidget().setItemWidget(item, 1, widget)
-            self.children.append(item)
+        self.children.append(item)
 
     def clear(self):
         while self.children:
-            child = self.children.pop(0)
-            self.takeChild(0)
+            self.children.pop(0)
 
     def insert(self, index, item):
-        if index < 0:
-            index += self.childCount()
-        if index < 0:
-            index = 0
-        if index > self.childCount():
-            index = self.childCount()
-        self.insertChild(index, item)
-        if isinstance(item, Base):
-            widget = item._widget
-            widget.setParent(self.treeWidget())
-            self.treeWidget().setItemWidget(item, 1, widget)
-            self.children.insert(index, item)
-
-    def _create_widget(self):
-        return Widget()
-
-    @property
-    def disabled(self):
-        return self._widget.disabled
-
-    @property
-    def edited(self):
-        return self._widget.edited
+        self.children.insert(index, item)
 
     def get(self) -> dict:
-        return self._value
+        return self._data
 
     def get_value(self) -> object:
         return self._value["value"]
 
-    @property
-    def label(self):
-        return self.text(0)
-
-    @label.setter
-    def label(self, value: str):
-        self.setText(0, value)
-
-    def on_disabled(self, value: bool):
+    def _on_disabled(self, value: bool):
         self._widget.setDisabled(value)
 
-    def on_updated(self, value: dict):
+    def _on_updated(self, value: dict):
         raise NotImplementedError
 
     def set(self, value: object):
         # TODO: diff check
-        self._value.update(value)
-        self.updated.emit(self._value)
+        self._data.update(value)
+        for cb in self._updated_callbacks:
+            cb(self._data.as_dict())
 
     def set_value(self, value: object):
-        if value != self._value["value"]:
-            self._value["value"] = value
-            self.updated.emit(self._value)
+        if value != self._data.value:
+            self._data.value = value
+            for cb in self._updated_callbacks:
+                cb(self._data.as_dict())
 
     @property
     def updated(self):
