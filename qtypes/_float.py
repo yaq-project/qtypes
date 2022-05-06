@@ -10,6 +10,7 @@ from ._units import converter, get_valid_conversions
 
 
 class Float(Base):
+    qtype = "float"
 
     def __init__(self, label: str = "", value=float("nan"), units=None, minimum=float("-inf"), maximum=float("+inf"), decimals=6, disabled=False):
         super().__init__(label=label, value=value, disabled=disabled)

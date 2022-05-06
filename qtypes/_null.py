@@ -7,11 +7,7 @@ from ._base import Base
 
 
 class Null(Base):
-    defaults: Dict[str, Any] = dict()
-    defaults["value"] = None
-
-    def _create_widget(self):
-        return Widget()
+    qtype = "null"
 
     def on_updated(self, value: dict):
         pass

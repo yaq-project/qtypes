@@ -6,11 +6,16 @@ import pathlib
 
 from qtpy import QtWidgets, QtGui, QtCore
 
-from ._base import Base
-from ._styles import styles
+from .._base import Base
+from .._styles import styles
+from ._float import Widget as FloatWidget
 
 
 __here__ = pathlib.Path(__file__).parent
+
+
+widgets = dict()
+widgets["float"] = FloatWidget
 
 
 class TreeWidget(QtWidgets.QTreeWidget):
@@ -42,26 +47,17 @@ class TreeWidget(QtWidgets.QTreeWidget):
             self.children.append(item)
 
     def _build_tree(self):
-        class Widget(QtWidgets.QWidget):
-            def __init__(self, parent=None):
-                super().__init__(parent=parent)
-                # build widget
-                self.setLayout(QtWidgets.QHBoxLayout())
-                self.spin_box = QtWidgets.QDoubleSpinBox()
-                self.layout().addWidget(self.spin_box)
-                self.combo_box = QtWidgets.QComboBox()
-                self.combo_box.setFixedWidth(100)
-                self.combo_box.hide()  # will get shown if units are set
-                self.layout().addWidget(self.combo_box)
-                self.layout().setContentsMargins(0, 0, 0, 0)
+        def make_item(model):
+            item = QtWidgets.QTreeWidgetItem([model.get()["label"], ""])
+            widget = widgets[m.qtype](parent=self, model=model)
+            return item, widget
 
         def make_widget(parent, model):
-            wi = QtWidgets.QTreeWidgetItem([model.get()["label"], ""])
-            parent.addChild(wi)
-            widget = Widget(parent=self)
-            self.setItemWidget(wi, 1, widget)
+            item, widget = make_item(model)
+            parent.addChild(item)
+            self.setItemWidget(item, 1, widget)
             for child in model.children:
-                make_widget(wi, child)
+                make_widget(item, child)
 
         if not self.include_root:
             model = self.model.children
@@ -69,12 +65,11 @@ class TreeWidget(QtWidgets.QTreeWidget):
             model = self.model
         # top level items
         for m in model:
-            wi = QtWidgets.QTreeWidgetItem([m.get()["label"], ""])
-            self.addTopLevelItem(wi)
-            widget = Widget(parent=self)
-            self.setItemWidget(wi, 1, widget)
+            item, widget = make_item(m)
+            self.addTopLevelItem(item)
+            self.setItemWidget(item, 1, widget)
             for child in m.children:
-                make_widget(wi, child)
+                make_widget(item, child)
 
     def clear(self):
         while self.children:

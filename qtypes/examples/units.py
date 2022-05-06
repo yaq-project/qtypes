@@ -12,7 +12,7 @@ from qtypes._base import Base
 
 def append_inspection_widgets(root):
     # string representing value
-    root.append(qtypes.String("value", disabled=True))
+    root.append(qtypes.Float("value", disabled=True))
 
     #def on_updated(value, item):
     #    item.set_value(str(value))

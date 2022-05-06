@@ -9,6 +9,8 @@ from qtpy import QtCore, QtGui, QtWidgets
 
 
 class Base:
+    qtype = "base"
+
     def __init__(self, label="", value=None, disabled=False):
         self._data = dict()
         self._data["value"] = value
@@ -55,6 +57,8 @@ class Base:
             for cb in self._updated_callbacks:
                 cb(self._data.as_dict())
 
-    @property
-    def updated(self):
-        return self._widget.updated
+    def updated_connect(self, function):
+        self._updated_callbacks.append(function)
+
+    def updated_disconnect(self, function):
+        self._updated_callbacks.pop(function)
