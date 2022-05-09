@@ -1,7 +1,6 @@
 """Build qt graphical user interfaces out of simple type objects."""
 
 
-from .__version__ import *
 from ._bool import *
 from ._button import *
 from ._enum import *
@@ -11,3 +10,5 @@ from ._null import *
 from ._string import *
 from ._styles import *
 from ._widgets import *
+
+__version__ = "2022.5.0"
