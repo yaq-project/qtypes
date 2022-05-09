@@ -22,7 +22,19 @@ class Base:
         self._restructured_callbacks = []
 
     def __getitem__(self, index):
-        return self.children[index]
+        if isinstance(index, int):
+            return self.children[index]
+        elif isinstance(index, str):
+            for child in self.children:
+                if child.get()["label"] == index:
+                    return child
+            raise KeyError(f"{index} not found in children of {self}")
+        else:
+            raise Exception(f"{index} invalid argument to __getitem__")
+
+    def __setitem__(self, index, item):
+        assert isinstance(index, int)
+        self.children[index] = item
 
     def append(self, child):
         self.children.append(child)
