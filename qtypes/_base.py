@@ -1,6 +1,7 @@
 __all__ = ["Base"]
 
 
+import collections
 from dataclasses import dataclass
 from typing import Any, List
 
@@ -59,6 +60,12 @@ class Base:
     def insert(self, index, item):
         self.children.insert(index, item)
 
+    def items(self):
+        return collections.abc.ItemsView(list(zip(self.keys(), self.children)))
+
+    def keys(self):
+        return collections.abc.KeysView([c.get()["label"] for c in self.children])
+
     def get(self) -> dict:
         return self._data
 
@@ -94,3 +101,6 @@ class Base:
     def _updated_emit(self):
         for cb in self._updated_callbacks:
             cb(self._data)
+
+    def values(self):
+        return collections.abc.ValuesView(self.children)
