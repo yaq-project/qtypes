@@ -86,23 +86,23 @@ class MyMainWindow(QtWidgets.QMainWindow):
 
     def change_all(self, _=None):
         # bool
-        self.tree_widget[0].set_value(not self.tree_widget[0].get_value())
+        self.root_item[0].set_value(not self.root_item[0].get_value())
         # button
         # TODO:
         # enum
-        current = self.tree_widget[2].get()
+        current = self.root_item[2].get()
         new_index = (current["allowed"].index(current["value"]) + 1) % len(current["allowed"])
-        self.tree_widget[2].set_value(current["allowed"][new_index])
+        self.root_item[2].set_value(current["allowed"][new_index])
         # float
-        self.tree_widget[3].set_value(random.uniform(-100, 100))
-        fl = self.tree_widget[4]
+        self.root_item[3].set_value(random.uniform(-100, 100))
+        fl = self.root_item[4]
         val = fl.get()
         fl.set_value(random.uniform(val["minimum"], val["maximum"]))
         # integer
-        self.tree_widget[5].set_value(random.randrange(-100, 100))
+        self.root_item[5].set_value(random.randrange(-100, 100))
         # string
         length = random.randint(5, 30)
-        self.tree_widget[6].set_value(random_string(length))
+        self.root_item[6].set_value(random_string(length))
 
     def toggle_timer(self, toggle):
         if toggle["value"]:

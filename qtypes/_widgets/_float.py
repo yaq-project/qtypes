@@ -33,10 +33,10 @@ class Widget(QtWidgets.QWidget):
 
     def on_combo_box_editing_finished(self):
         new = self.combo_box.currentText()
-        self.model.set({"units": new})
+        self.model.set({"units": new}, from_widget=True)
 
     def on_spin_box_editing_finished(self):
-        self.model.set({"value": self.spin_box.value()})
+        self.model.set({"value": self.spin_box.value()}, from_widget=True)
 
     def on_updated(self, data):
         """
