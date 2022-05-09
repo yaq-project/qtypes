@@ -9,6 +9,7 @@ from qtpy import QtWidgets, QtGui, QtCore
 from .._base import Base
 from .._styles import styles
 from ._bool import Widget as BoolWidget
+from ._null import Widget as NullWidget
 from ._button import Widget as ButtonWidget
 from ._enum import Widget as EnumWidget
 from ._float import Widget as FloatWidget
@@ -21,6 +22,7 @@ __here__ = pathlib.Path(__file__).parent
 
 widgets = dict()
 widgets["bool"] = BoolWidget
+widgets["null"] = NullWidget
 widgets["button"] = ButtonWidget
 widgets["enum"] = EnumWidget
 widgets["float"] = FloatWidget
