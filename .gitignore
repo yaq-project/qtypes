@@ -37,6 +37,7 @@ flycheck_*.el
 *.png
 !logo/logo.png
 *.svg
+!inkscape-source/*.svg
 *.ico
 
 # tests / coverage reports
