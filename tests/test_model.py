@@ -15,7 +15,7 @@ def test_insert():
     item.insert(0, qtypes.Null("c"))
     item.insert(-2, qtypes.Null("d"))
     assert len(item) == 4
-    assert item.keys() == ("c", "d", "a", "b")
+    assert tuple(item.keys()) == ("c", "d", "a", "b")
 
 
 def test_remove():
@@ -26,7 +26,7 @@ def test_remove():
     item.append(qtypes.Null("c"))
     assert len(item) == 3
     item.remove(b)
-    assert len(item) == 1
+    assert len(item) == 2
 
 
 def test_del():
@@ -36,11 +36,8 @@ def test_del():
     item.append(qtypes.Null("c"))
     assert len(item) == 3
     del item[1]
-    assert item.keys() == ("a", "c")
+    assert tuple(item.keys()) == ("a", "c")
     assert len(item) == 2
-    del item["a"]
-    assert len(item) == 1
-    assert item.keys() == ("c",)
 
 
 def test_getitem():
@@ -75,7 +72,7 @@ def test_reverse():
     item.append(b)
     item.append(c)
     item.reverse()
-    assert item.keys() == ("c", "b", "a")
+    assert tuple(item.keys()) == ("c", "b", "a")
 
 
 def test_extend():
@@ -85,7 +82,7 @@ def test_extend():
     c = qtypes.Null("c")
     item.append(a)
     item.extend([b, c])
-    assert item.keys() == ("a", "b", "c")
+    assert tuple(item.keys()) == ("a", "b", "c")
 
 
 def test_iadd():
@@ -96,7 +93,7 @@ def test_iadd():
     c = qtypes.Null("c")
     item.append(a)
     item += [b, c]
-    assert item.keys() == ("a", "b", "c")
+    assert tuple(item.keys()) == ("a", "b", "c")
 
 
 def test_pop():
@@ -110,11 +107,11 @@ def test_pop():
     item.append(c)
     item.append(d)
     assert item.pop(1) == b
-    assert item.keys == ("a", "c", "d")
+    assert tuple(item.keys()) == ("a", "c", "d")
     assert item.pop() == d
-    assert item.keys == ("a", "c")
+    assert tuple(item.keys()) == ("a", "c")
     assert item.pop("a") == a
-    assert item.keys == ("c")
+    assert tuple(item.keys()) == ("c",)
     assert item.popitem(c) == c
 
 
