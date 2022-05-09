@@ -24,6 +24,9 @@ class Base:
     def __getitem__(self, index):
         return self.children[index]
 
+    def __len__(self):
+        return len(self.children)
+
     def append(self, child):
         self.children.append(child)
         child.restructured_connect(self._restructured_emit)
