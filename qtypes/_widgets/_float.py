@@ -17,8 +17,8 @@ class Widget(QtWidgets.QWidget):
         self.combo_box.hide()  # will get shown if units are set
         self.layout().addWidget(self.combo_box)
         self.layout().setContentsMargins(0, 0, 0, 0)
-        self.spin_box.editingFinished.connect(self.on_edited)
-        self.combo_box.currentIndexChanged.connect(self.on_combo_changed)
+        self.spin_box.editingFinished.connect(self.on_spin_box_editing_finished)
+        self.combo_box.currentIndexChanged.connect(self.on_combo_box_editing_finished)
         # wire into model
         self.model = model
         self.model.updated_connect(self.on_updated)
@@ -31,41 +31,40 @@ class Widget(QtWidgets.QWidget):
             out.append(self.combo_box.itemText(i))
         return out
 
-    def on_combo_changed(self):
+    def on_combo_box_editing_finished(self):
         new = self.combo_box.currentText()
         self.model.set({"units": new})
 
-    def on_edited(self, value):
-        pass
+    def on_spin_box_editing_finished(self):
+        self.model.set({"value": self.spin_box.value()})
 
-    def on_updated(self, value):
+    def on_updated(self, data):
         """
         Must recieve complete and self-consistent dictionary.
         Updates state of widget
         """
         # units
-        if value["units"] is not None and len(self.allowed_units) == 0:
-            self.combo_box.currentIndexChanged.disconnect(self.on_combo_changed)
-            self.combo_box.addItems(get_valid_conversions(value["units"]))
-            self.combo_box.currentIndexChanged.connect(self.on_combo_changed)
-        if value["units"] is not None:
+        if data["units"] is not None and len(self.allowed_units) == 0:
+            self.combo_box.currentIndexChanged.disconnect(self.on_combo_box_editing_finished)
+            self.combo_box.addItems(get_valid_conversions(data["units"]))
+            self.combo_box.currentIndexChanged.connect(self.on_combo_box_editing_finished)
+        if data["units"] is not None:
             self.combo_box.show()
-            self.combo_box.currentIndexChanged.disconnect(self.on_combo_changed)
-            self.combo_box.setCurrentIndex(self.allowed_units.index(value["units"]))
-            self.combo_box.currentIndexChanged.connect(self.on_combo_changed)
+            self.combo_box.currentIndexChanged.disconnect(self.on_combo_box_editing_finished)
+            self.combo_box.setCurrentIndex(self.allowed_units.index(data["units"]))
+            self.combo_box.currentIndexChanged.connect(self.on_combo_box_editing_finished)
         # minimum, maximum
-        data = self.model.get()
         self.spin_box.setMinimum(data["minimum"])
         self.spin_box.setMaximum(data["maximum"])
         # tool tip
-        self.spin_box.setToolTip(f"minimum:{value['minimum']}\nmaximum:{value['maximum']}")
+        self.spin_box.setToolTip(f"minimum:{data['minimum']}\nmaximum:{data['maximum']}")
         if not self.spin_box.hasFocus():
             # decimals
             self.spin_box.setDecimals(data["decimals"])
             # value
-            if math.isnan(value["value"]):
+            if math.isnan(data["value"]):
                 self.spin_box.setSpecialValueText("nan")
                 self.spin_box.setValue(self.spin_box.minimum())
             else:
                 self.spin_box.setSpecialValueText("")
-                self.spin_box.setValue(value["value"])
+                self.spin_box.setValue(data["value"])

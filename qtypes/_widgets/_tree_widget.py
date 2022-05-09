@@ -8,14 +8,24 @@ from qtpy import QtWidgets, QtGui, QtCore
 
 from .._base import Base
 from .._styles import styles
+from ._bool import Widget as BoolWidget
+from ._button import Widget as ButtonWidget
+from ._enum import Widget as EnumWidget
 from ._float import Widget as FloatWidget
+from ._integer import Widget as IntegerWidget
+from ._string import Widget as StringWidget
 
 
 __here__ = pathlib.Path(__file__).parent
 
 
 widgets = dict()
+widgets["bool"] = BoolWidget
+widgets["button"] = ButtonWidget
+widgets["enum"] = EnumWidget
 widgets["float"] = FloatWidget
+widgets["integer"] = IntegerWidget
+widgets["string"] = StringWidget
 
 
 class TreeWidget(QtWidgets.QTreeWidget):
@@ -31,6 +41,8 @@ class TreeWidget(QtWidgets.QTreeWidget):
         self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.model = model
         self.include_root = include_root
+        self.children = []
+        self.model.restructured_connect(self._build_tree)
         self._build_tree()
 
     def __getitem__(self, index):
@@ -47,9 +59,11 @@ class TreeWidget(QtWidgets.QTreeWidget):
             self.children.append(item)
 
     def _build_tree(self):
+        self.clear()
+
         def make_item(model):
             item = QtWidgets.QTreeWidgetItem([model.get()["label"], ""])
-            widget = widgets[m.qtype](parent=self, model=model)
+            widget = widgets[model.qtype](parent=self, model=model)
             return item, widget
 
         def make_widget(parent, model):
@@ -67,6 +81,7 @@ class TreeWidget(QtWidgets.QTreeWidget):
         for m in model:
             item, widget = make_item(m)
             self.addTopLevelItem(item)
+            self.children.append(item)
             self.setItemWidget(item, 1, widget)
             for child in m.children:
                 make_widget(item, child)

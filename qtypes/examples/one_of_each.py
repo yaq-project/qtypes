@@ -28,7 +28,7 @@ def append_inspection_widgets(root):
     def on_updated(value, item):
         item.set_value(str(value))
 
-    root.updated.connect(functools.partial(on_updated, item=root[0]))
+    root.updated_connect(functools.partial(on_updated, item=root[0]))
     on_updated(root.get(), root[0])
     # disable checkbox
     root.append(qtypes.Bool("disabled"))
@@ -36,21 +36,21 @@ def append_inspection_widgets(root):
     def on_updated(value, item):
         item.disabled.emit(value["value"])
 
-    root[1].updated.connect(functools.partial(on_updated, item=root))
+    root[1].updated_connect(functools.partial(on_updated, item=root))
     # updated counter
     root.append(qtypes.Integer("updated count", disabled=True))
 
     def on_updated(_, item):
         item.set_value(item.get_value() + 1)
 
-    root.updated.connect(functools.partial(on_updated, item=root[-1]))
+    root.updated_connect(functools.partial(on_updated, item=root[-1]))
     # edited counter
     root.append(qtypes.Integer("edited count", disabled=True))
 
     def on_edited(_, item):
         item.set_value(item.get_value() + 1)
 
-    root.edited.connect(functools.partial(on_edited, item=root[-1]))
+    root.edited_connect(functools.partial(on_edited, item=root[-1]))
 
 
 class MyMainWindow(QtWidgets.QMainWindow):
@@ -58,25 +58,25 @@ class MyMainWindow(QtWidgets.QMainWindow):
         super().__init__()
         self.setWindowTitle("one of each")
 
-        self.tree_widget = qtypes.TreeWidget()
-        self.tree_widget.append(qtypes.Bool("bool"))
-        self.tree_widget.append(qtypes.Button("button"))
-        self.tree_widget.append(
-            qtypes.Enum("enum", value={"value": "red", "allowed": ["red", "blue", "green"]})
+        self.root_item = qtypes.Null(label="")
+        self.root_item.append(qtypes.Bool("bool"))
+        self.root_item.append(qtypes.Button("button"))
+        self.root_item.append(
+            qtypes.Enum("enum", value="red", allowed=["red", "blue", "green"])
         )
-        self.tree_widget.append(qtypes.Float("float"))
-        self.tree_widget.append(qtypes.Float("float with units", value={"units": "nm", "minimum": 400, "maximum": 800}))
-        self.tree_widget.append(qtypes.Integer("integer"))
-        self.tree_widget.append(qtypes.String("string"))
-
-        for child in self.tree_widget.children:
+        self.root_item.append(qtypes.Float("float"))
+        self.root_item.append(qtypes.Float("float with units", units="nm", minimum=400, maximum=800))
+        self.root_item.append(qtypes.Integer("integer"))
+        self.root_item.append(qtypes.String("string"))
+        for child in self.root_item.children:
             append_inspection_widgets(child)
 
-        self.tree_widget.append(qtypes.Button("change all programmatically"))
-        self.tree_widget[-1].updated.connect(self.change_all)
-        self.tree_widget.append(qtypes.Bool("update every second"))
-        self.tree_widget[-1].updated.connect(self.toggle_timer)
+        self.root_item.append(qtypes.Button("change all programmatically"))
+        self.root_item[-1].updated_connect(self.change_all)
+        self.root_item.append(qtypes.Bool("update every second"))
+        self.root_item[-1].updated_connect(self.toggle_timer)
 
+        self.tree_widget = qtypes.TreeWidget(self.root_item)
         self.tree_widget.expandAll()
         self.tree_widget.resizeColumnToContents(0)
         self.setCentralWidget(self.tree_widget)

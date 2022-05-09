@@ -12,13 +12,13 @@ from qtypes._base import Base
 
 def append_inspection_widgets(root):
     # string representing value
-    root.append(qtypes.Float("value", disabled=True))
+    root.append(qtypes.String("value", disabled=True))
 
-    #def on_updated(value, item):
-    #    item.set_value(str(value))
+    def on_updated(value, item):
+        item.set_value(str(value))
 
-    #root.updated.connect(functools.partial(on_updated, item=root[0]))
-    #on_updated(root.get(), root[0])
+    root.updated_connect(functools.partial(on_updated, item=root[0]))
+    on_updated(root.get(), root[0])
 
 
 class MyMainWindow(QtWidgets.QMainWindow):
@@ -34,7 +34,6 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.root_item.append(qtypes.Float("temperature", value=32, units="deg_F", minimum=-459.67, maximum=1000))
         for child in self.root_item.children:
             append_inspection_widgets(child)
-        self.root_item[0][0].append(qtypes.Float("test"))
         self.tree_widget = qtypes.TreeWidget(self.root_item, include_root=False)
         self.tree_widget.expandAll()
         self.tree_widget.resizeColumnToContents(0)

@@ -5,30 +5,9 @@ from ._base import Base
 
 
 class Integer(Base):
-    defaults = dict()
-    defaults["value"] = 0
-    defaults["minimum"] = -(2**31)
-    defaults["maximum"] = 2**31 - 1
+    qtype = "integer"
 
-    def _create_widget(self):
-        widget = Widget()
-        widget.editingFinished.connect(self.on_edited)
-        return widget
-
-    def on_edited(self):
-        if self._widget.value() != self._value["value"]:
-            self._value["value"] = self._widget.value()
-            self.edited.emit(self._value)
-            self.updated.emit(self._value)
-
-    def on_updated(self, value):
-        # minimum, maximum
-        self._widget.setMinimum(self._value["minimum"])
-        self._widget.setMaximum(self._value["maximum"])
-        # tool tip
-        self._widget.setToolTip(f"minimum:{value['minimum']}\nmaximum:{value['maximum']}")
-        # Avoid overwriting when user is editing
-        if self._widget.hasFocus():
-            return
-        # value
-        self._widget.setValue(self._value["value"])
+    def __init__(self, label: str = "", value=0, minimum=-1e6, maximum=1e6, disabled=False):
+        super().__init__(label=label, value=value, disabled=disabled)
+        self._data["minimum"] = minimum
+        self._data["maximum"] = maximum
