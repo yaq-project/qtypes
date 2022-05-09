@@ -2,36 +2,22 @@ __all__ = ["Float"]
 
 
 import math
+from dataclasses import dataclass
 from typing import Any, Dict
 
-from qtpy import QtWidgets, QtGui
-
 from ._base import Base
-from ._signals import Signals
 from ._units import converter, get_valid_conversions
 
 
-class Widget(Signals, QtWidgets.QWidget):
-    def __init__(self, parent=None):
-        super().__init__(parent=parent)
-        # build widget
-        self.setLayout(QtWidgets.QHBoxLayout())
-        self.spin_box = QtWidgets.QDoubleSpinBox()
-        self.layout().addWidget(self.spin_box)
-        self.combo_box = QtWidgets.QComboBox()
-        self.combo_box.setFixedWidth(100)
-        self.combo_box.hide()  # will get shown if units are set
-        self.layout().addWidget(self.combo_box)
-        self.layout().setContentsMargins(0, 0, 0, 0)
-
-
 class Float(Base):
-    defaults: Dict[str, Any] = dict()
-    defaults["value"] = float("nan")
-    defaults["units"] = None
-    defaults["minimum"] = float("-inf")
-    defaults["maximum"] = float("inf")
-    defaults["decimals"] = 6
+    qtype = "float"
+
+    def __init__(self, label: str = "", value=float("nan"), units=None, minimum=float("-inf"), maximum=float("+inf"), decimals=6, disabled=False):
+        super().__init__(label=label, value=value, disabled=disabled)
+        self._data["units"] = units
+        self._data["minimum"] = minimum
+        self._data["maximum"] = maximum
+        self._data["decimals"] = decimals
 
     @property
     def allowed_units(self):
@@ -40,76 +26,20 @@ class Float(Base):
             out.append(self._widget.combo_box.itemText(i))
         return out
 
-    def _create_widget(self):
-        widget = Widget()
-        widget.spin_box.editingFinished.connect(self.on_edited)
-        widget.combo_box.currentIndexChanged.connect(self.on_combo_changed)
-        self._widget = widget
-        self.on_updated(self._value)
-        return widget
-
-    def on_combo_changed(self):
-        new = self._widget.combo_box.currentText()
-        self.set({"units": new})
-
-    def on_disabled(self, value: bool):
-        self._widget.spin_box.setDisabled(value)
-        self._widget.combo_box.setDisabled(False)
-
-    def on_edited(self):
-        new = self._widget.spin_box.value()
-        if not math.isclose(self._value["value"], new):
-            self._value["value"] = new
-            self.edited.emit(self._value)
-            self.updated.emit(self._value)
-
-    def on_updated(self, value):
-        """
-        Must recieve complete and self-consistent dictionary.
-        Updates state of widget
-        """
-        # units
-        if value["units"] is not None and len(self.allowed_units) == 0:
-            self._widget.combo_box.currentIndexChanged.disconnect(self.on_combo_changed)
-            self._widget.combo_box.addItems(get_valid_conversions(value["units"]))
-            self._widget.combo_box.currentIndexChanged.connect(self.on_combo_changed)
-        if value["units"] is not None:
-            self._widget.combo_box.show()
-            self._widget.combo_box.currentIndexChanged.disconnect(self.on_combo_changed)
-            self._widget.combo_box.setCurrentIndex(self.allowed_units.index(value["units"]))
-            self._widget.combo_box.currentIndexChanged.connect(self.on_combo_changed)
-        # minimum, maximum
-        self._widget.spin_box.setMinimum(self._value["minimum"])
-        self._widget.spin_box.setMaximum(self._value["maximum"])
-        # tool tip
-        self._widget.spin_box.setToolTip(f"minimum:{value['minimum']}\nmaximum:{value['maximum']}")
-        if not self._widget.spin_box.hasFocus():
-            # decimals
-            self._widget.spin_box.setDecimals(self._value["decimals"])
-            # value
-            if math.isnan(value["value"]):
-                self._widget.spin_box.setSpecialValueText("nan")
-                self._widget.spin_box.setValue(self._widget.spin_box.minimum())
-            else:
-                self._widget.spin_box.setSpecialValueText("")
-                self._widget.spin_box.setValue(value["value"])
-
-    def set(self, value):
-        # TODO: diff check
-        if "units" in value.keys():
-            new = value["units"]
-            old = self._value["units"]
-            if "value" not in value.keys():
-                value["value"] = converter(self._value["value"], old, new)
-            new_min, new_max = sorted(
-                [
-                    converter(self._value["minimum"], old, new),
-                    converter(self._value["maximum"], old, new),
-                ]
-            )
-            if "minimum" not in value.keys():
-                value["minimum"] = new_min
-            if "maximum" not in value.keys():
-                value["maximum"] = new_max
-        self._value.update(value)
-        self.updated.emit(self._value)
+    def set(self, data: object, *, from_widget=False):
+        if all([self._data[k] == data[k] for k in data.keys()]):
+            return
+        if "units" in data:
+            if not "value" in data:
+                data["value"] = converter(self._data["value"], self._data["units"], data["units"])
+            if not "minimum" in data:
+                data["minimum"] = converter(self._data["minimum"], self._data["units"], data["units"])
+            if not "maximum" in data:
+                data["maximum"] = converter(self._data["maximum"], self._data["units"], data["units"])
+            data["minimum"], data["maximum"] = [sort(data["minimum"], data["maximum"]) for sort in [min, max]]
+        self._data.update(data)
+        for cb in self._updated_callbacks:
+            cb(self._data)
+        if from_widget:
+            for cb in self._edited_callbacks:
+                cb(self._data)
