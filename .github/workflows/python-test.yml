@@ -20,6 +20,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install flit
+        python -m pip install pyside2
         flit install
     - name: Test with pytest
       run: |
