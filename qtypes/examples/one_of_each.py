@@ -33,8 +33,8 @@ def append_inspection_widgets(root):
     # disable checkbox
     root.append(qtypes.Bool("disabled"))
 
-    def on_updated(value, item):
-        item.disabled.emit(value["value"])
+    def on_updated(data, item):
+        item.set({"disabled": data["value"]})
 
     root[1].updated_connect(functools.partial(on_updated, item=root))
     # updated counter

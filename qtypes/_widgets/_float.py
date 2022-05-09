@@ -68,3 +68,5 @@ class Widget(QtWidgets.QWidget):
             else:
                 self.spin_box.setSpecialValueText("")
                 self.spin_box.setValue(data["value"])
+        # disabled
+        self.setDisabled(data["disabled"])

@@ -9,5 +9,6 @@ class Widget(QtWidgets.QPushButton):
         self.model.updated_connect(self.on_updated)
         self.on_updated(model.get())
 
-    def on_updated(self, value):
-        self.setText(value["text"])
+    def on_updated(self, data):
+        self.setText(data["text"])
+        self.setDisabled(data["disabled"])

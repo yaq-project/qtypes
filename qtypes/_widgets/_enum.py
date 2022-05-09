@@ -32,3 +32,5 @@ class Widget(QtWidgets.QComboBox):
         self.setCurrentIndex(index)
 
         self.currentTextChanged.connect(self.on_current_text_changed)
+
+        self.setDisabled(data["disabled"])
