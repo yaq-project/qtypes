@@ -30,7 +30,7 @@ Issues = "https://gitlab.com/yaq/qtypes/issues"
 
 [tool.flit.metadata.requires-extra]
 dev = ["black", "pre-commit"]
-test = ["pyside2>=5.12"]
+test = ["pyside2>=5.12", "pytest"]
 
 [tool.black]
 line-length = 99
