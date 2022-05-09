@@ -10,4 +10,4 @@ from ._integer import *
 from ._null import *
 from ._string import *
 from ._styles import *
-from ._tree_widget import *
+from ._widgets import *

@@ -1,100 +1,84 @@
 __all__ = ["Base"]
 
 
+from dataclasses import dataclass
+from typing import Any, List
+
 import qtpy
 from qtpy import QtCore, QtGui, QtWidgets
 
 
-from ._signals import Signals
+class Base:
+    qtype = "base"
 
-
-class Widget(Signals, QtWidgets.QLabel):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.setText("this widget provided by qtypes Base class, please overload _create_widget")
-
-
-class Base(QtWidgets.QTreeWidgetItem):
-    def __init__(self, label="", disabled=False, value={}):
-        super().__init__([label, ""])
-        self._value = self.defaults.copy()
-        self._value.update(value)
-        self._widget = self._create_widget()
+    def __init__(self, label="", value=None, disabled=False):
+        self._data = dict()
+        self._data["value"] = value
+        self._data["disabled"] = disabled
+        self._data["label"] = label
         self.children = []
-        # signals and slots
-        self.updated.connect(self.on_updated)
-        self.updated.emit(self._value)
-        self.disabled.connect(self.on_disabled)
-        self.disabled.emit(disabled)
+        self._updated_callbacks = []
+        self._edited_callbacks = []
+        self._restructured_callbacks = []
 
     def __getitem__(self, index):
-        if index < 0:
-            index = self.childCount() + index
-        return self.child(index)
+        return self.children[index]
 
-    def append(self, item):
-        self.addChild(item)
-        if isinstance(item, Base):
-            widget = item._widget
-            widget.setParent(self.treeWidget())
-            self.treeWidget().setItemWidget(item, 1, widget)
-            self.children.append(item)
+    def append(self, child):
+        self.children.append(child)
+        child.restructured_connect(self._restructured_emit)
+        self._restructured_emit()
+
+    def clear(self):
+        while self.children:
+            self.children.pop(0)
+        self._restructured_emit()
+
+    def edited_connect(self, function):
+        self._edited_callbacks.append(function)
+
+    def edited_disconnect(self, function):
+        self._edited_callbacks.disconnect(function)
+
+    def _edited_emit(self):
+        for cb in self._edited_callbacks:
+            cb(self._data)
 
     def insert(self, index, item):
-        if index < 0:
-            index += self.childCount()
-        if index < 0:
-            index = 0
-        if index > self.childCount():
-            index = self.childCount()
-        self.insertChild(index, item)
-        if isinstance(item, Base):
-            widget = item._widget
-            widget.setParent(self.treeWidget())
-            self.treeWidget().setItemWidget(item, 1, widget)
-            self.children.insert(index, item)
-
-    def _create_widget(self):
-        return Widget()
-
-    @property
-    def disabled(self):
-        return self._widget.disabled
-
-    @property
-    def edited(self):
-        return self._widget.edited
+        self.children.insert(index, item)
 
     def get(self) -> dict:
-        return self._value
+        return self._data
 
     def get_value(self) -> object:
-        return self._value["value"]
+        return self._data["value"]
 
-    @property
-    def label(self):
-        return self.text(0)
+    def restructured_connect(self, function):
+        self._restructured_callbacks.append(function)
 
-    @label.setter
-    def label(self, value: str):
-        self.setText(0, value)
+    def restructured_disconnect(self, function):
+        self._restructured_callbacks.pop(function)
 
-    def on_disabled(self, value: bool):
-        self._widget.setDisabled(value)
+    def _restructured_emit(self):
+        for cb in self._restructured_callbacks:
+            cb()
 
-    def on_updated(self, value: dict):
-        raise NotImplementedError
-
-    def set(self, value: object):
+    def set(self, value: object, *, from_widget=False):
         # TODO: diff check
-        self._value.update(value)
-        self.updated.emit(self._value)
+        self._data.update(value)
+        self._updated_emit()
+        if from_widget:
+            self._edited_emit()
 
     def set_value(self, value: object):
-        if value != self._value["value"]:
-            self._value["value"] = value
-            self.updated.emit(self._value)
+        self.set({"value": value})
 
-    @property
-    def updated(self):
-        return self._widget.updated
+    def updated_connect(self, function):
+        self._updated_callbacks.append(function)
+
+    def updated_disconnect(self, function):
+        self._updated_callbacks.pop(function)
+
+    def _updated_emit(self):
+        for cb in self._updated_callbacks:
+            cb(self._data)
