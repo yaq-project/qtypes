@@ -2,6 +2,7 @@ __all__ = ["Base"]
 
 
 import collections
+import collections.abc
 from dataclasses import dataclass
 from typing import Any, List
 
@@ -9,7 +10,7 @@ import qtpy
 from qtpy import QtCore, QtGui, QtWidgets
 
 
-class Base:
+class Base(collections.abc.MutableSequence):
     qtype = "base"
 
     def __init__(self, label="", value=None, disabled=False):
@@ -36,9 +37,18 @@ class Base:
     def __setitem__(self, index, item):
         assert isinstance(index, int)
         self.children[index] = item
+        self._restructured_emit()
 
     def __len__(self):
         return len(self.children)
+
+    def __delitem__(self, index):
+        assert isinstance(index, int)
+        del self.children[index]
+        self._restructured_emit()
+
+    def __contains__(self, item):
+        return item in self.children or item in self.keys()
 
     def append(self, child):
         self.children.append(child)
@@ -74,6 +84,15 @@ class Base:
 
     def get_value(self) -> object:
         return self._data["value"]
+
+    def pop(self, index=-1):
+        try:
+            return super().pop(index)
+        except AssertionError:
+            return super().pop(self.index(self[index]))
+
+    def popitem(self, item):
+        return super().pop(self.index(item))
 
     def restructured_connect(self, function):
         self._restructured_callbacks.append(function)
