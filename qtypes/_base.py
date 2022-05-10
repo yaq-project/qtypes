@@ -52,11 +52,6 @@ class Base(collections.abc.MutableSequence):
     def __contains__(self, item):
         return item in self.children or item in self.keys()
 
-    def append(self, child):
-        self.children.append(child)
-        child.restructured_connect(self._restructured_emit)
-        self._restructured_emit()
-
     def clear(self):
         while self.children:
             self.children.pop(0)
@@ -74,6 +69,8 @@ class Base(collections.abc.MutableSequence):
 
     def insert(self, index, item):
         self.children.insert(index, item)
+        item.restructured_connect(self._restructured_emit)
+        self._restructured_emit()
 
     def items(self):
         return collections.abc.ItemsView(list(zip(self.keys(), self.children)))
