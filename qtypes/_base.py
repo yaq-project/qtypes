@@ -67,7 +67,7 @@ class Base(collections.abc.MutableSequence):
 
     def insert(self, index, item):
         self.children.insert(index, item)
-        child.restructured_connect(self._restructured_emit)
+        item.restructured_connect(self._restructured_emit)
         self._restructured_emit()
 
     def items(self):
