@@ -3,6 +3,7 @@ __all__ = ["Base"]
 
 import collections
 import collections.abc
+from contextlib import contextmanager
 from dataclasses import dataclass
 from typing import Any, List
 
@@ -22,6 +23,7 @@ class Base(collections.abc.MutableSequence):
         self._updated_callbacks = []
         self._edited_callbacks = []
         self._restructured_callbacks = []
+        self._suppress_restructure_callbacks = False
 
     def __getitem__(self, index):
         if isinstance(index, int):
@@ -101,8 +103,16 @@ class Base(collections.abc.MutableSequence):
         self._restructured_callbacks.pop(function)
 
     def _restructured_emit(self):
-        for cb in self._restructured_callbacks:
-            cb()
+        if not self._suppress_restructure_callbacks:
+            for cb in self._restructured_callbacks:
+                cb()
+
+    @contextmanager
+    def suppress_restructured(self):
+        self._suppress_restructure_callbacks = True
+        yield
+        self._suppress_restructure_callbacks = False
+        self._restructured_emit()
 
     def set(self, value: object, *, from_widget=False):
         # TODO: diff check
