@@ -14,5 +14,6 @@ class Widget(QtWidgets.QLineEdit):
         self.model.set({"value": self.text()}, from_widget=True)
 
     def on_updated(self, data):
-        self.setText(data["value"])
-        self.setDisabled(data["disabled"])
+        if not self.hasFocus():
+            self.setText(data["value"])
+            self.setDisabled(data["disabled"])
