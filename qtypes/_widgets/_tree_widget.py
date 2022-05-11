@@ -92,6 +92,7 @@ class TreeWidget(QtWidgets.QTreeWidget):
         while self.children:
             child = self.children.pop(0)
             self.takeTopLevelItem(0)
+            del child
 
     def insert(self, index, item):
         if index < 0:
