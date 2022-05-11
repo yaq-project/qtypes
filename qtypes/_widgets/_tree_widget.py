@@ -89,6 +89,7 @@ class TreeWidget(QtWidgets.QTreeWidget):
                 make_widget(item, child)
 
     def clear(self):
+        # TODO: gotta crawl entire tree
         while self.children:
             child = self.children.pop(0)
             self.takeTopLevelItem(0)
