@@ -14,5 +14,6 @@ class Widget(QtWidgets.QSpinBox):
         self.model.set({"value": self.value()}, from_widget=True)
 
     def on_updated(self, data):
-        self.setValue(data["value"])
-        self.setDisabled(data["disabled"])
+        if not self.hasFocus():
+            self.setValue(data["value"])
+            self.setDisabled(data["disabled"])
