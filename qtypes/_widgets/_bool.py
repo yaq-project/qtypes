@@ -10,6 +10,9 @@ class Widget(QtWidgets.QCheckBox):
         self.model.updated_connect(self.on_updated)
         self.on_updated(model.get())
 
+    def disconnect(self):
+        self.model.updated_disconnect(self.on_updated)
+
     def on_state_changed(self, new):
         self.model.set({"value": bool(new)}, from_widget=True)
 

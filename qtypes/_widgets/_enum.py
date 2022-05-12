@@ -10,6 +10,9 @@ class Widget(QtWidgets.QComboBox):
         self.model.updated_connect(self.on_updated)
         self.on_updated(model.get())
 
+    def disconnect(self):
+        self.model.updated_disconnect(self.on_updated)
+
     def on_current_text_changed(self, new):
         self.model.set({"value": new}, from_widget=True)
 

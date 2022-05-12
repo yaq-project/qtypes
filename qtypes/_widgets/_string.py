@@ -10,6 +10,9 @@ class Widget(QtWidgets.QLineEdit):
         self.model.updated_connect(self.on_updated)
         self.on_updated(model.get())
 
+    def disconnect(self):
+        self.model.updated_disconnect(self.on_updated)
+
     def on_editing_finished(self):
         self.model.set({"value": self.text()}, from_widget=True)
 

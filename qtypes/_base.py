@@ -61,7 +61,8 @@ class Base(collections.abc.MutableSequence):
         self._edited_callbacks.append(function)
 
     def edited_disconnect(self, function):
-        self._edited_callbacks.disconnect(function)
+        idx = self._edited_callbacks.index(function)
+        self._edited_callbacks.pop(idx)
 
     def _edited_emit(self):
         for cb in self._edited_callbacks:
@@ -125,7 +126,8 @@ class Base(collections.abc.MutableSequence):
         self._updated_callbacks.append(function)
 
     def updated_disconnect(self, function):
-        self._updated_callbacks.pop(function)
+        idx = self._updated_callbacks.index(function)
+        self._updated_callbacks.pop(idx)
 
     def _updated_emit(self):
         for cb in self._updated_callbacks:

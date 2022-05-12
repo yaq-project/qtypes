@@ -24,6 +24,9 @@ class Widget(QtWidgets.QWidget):
         self.model.updated_connect(self.on_updated)
         self.on_updated(model.get())
 
+    def disconnect(self):
+        self.model.updated_disconnect(self.on_updated)
+
     @property
     def allowed_units(self):
         out = []
