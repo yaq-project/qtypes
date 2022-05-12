@@ -43,8 +43,8 @@ class TreeWidget(QtWidgets.QTreeWidget):
         self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.model = model
         self.include_root = include_root
-        self.children = []
         self.model.restructured_connect(self._build_tree)
+        self.item_widgets = []
         self._build_tree()
 
     def __getitem__(self, index):
@@ -58,7 +58,6 @@ class TreeWidget(QtWidgets.QTreeWidget):
             widget = item._widget
             widget.setParent(self)
             self.setItemWidget(item, 1, widget)
-            self.children.append(item)
 
     def _build_tree(self):
         self.clear()
@@ -66,6 +65,7 @@ class TreeWidget(QtWidgets.QTreeWidget):
         def make_item(model):
             item = QtWidgets.QTreeWidgetItem([model.get()["label"], ""])
             widget = widgets[model.qtype](parent=self, model=model)
+            self.item_widgets.append(widget)
             return item, widget
 
         def make_widget(parent, model):
@@ -83,17 +83,16 @@ class TreeWidget(QtWidgets.QTreeWidget):
         for m in model:
             item, widget = make_item(m)
             self.addTopLevelItem(item)
-            self.children.append(item)
             self.setItemWidget(item, 1, widget)
             for child in m.children:
                 make_widget(item, child)
 
     def clear(self):
-        # TODO: gotta crawl entire tree
-        while self.children:
-            child = self.children.pop(0)
-            self.takeTopLevelItem(0)
-            del child
+        while self.topLevelItemCount():
+            item = self.takeTopLevelItem(0)
+        while self.item_widgets:
+            w = self.item_widgets.pop()
+            w.disconnect()
 
     def insert(self, index, item):
         if index < 0:
@@ -107,4 +106,3 @@ class TreeWidget(QtWidgets.QTreeWidget):
             widget = item._widget
             widget.setParent(self)
             self.setItemWidget(item, 1, widget)
-            self.children.insert(index, item)

@@ -126,7 +126,6 @@ class Base(collections.abc.MutableSequence):
         self._updated_callbacks.append(function)
 
     def updated_disconnect(self, function):
-        print("UPDATED DISCONNECT")
         idx = self._updated_callbacks.index(function)
         self._updated_callbacks.pop(idx)
 
