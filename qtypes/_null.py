@@ -8,3 +8,6 @@ from ._base import Base
 
 class Null(Base):
     qtype = "null"
+
+    def disconnect(self):
+        pass
