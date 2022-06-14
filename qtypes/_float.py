@@ -35,7 +35,7 @@ class Float(Base):
             out.append(self._widget.combo_box.itemText(i))
         return out
 
-    def set(self, data: object, *, from_widget=False):
+    def set(self, data: dict, *, from_widget=False):
         if all([self._data[k] == data[k] for k in data.keys()]):
             return
         if "units" in data:
