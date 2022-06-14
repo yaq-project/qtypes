@@ -112,7 +112,7 @@ class Base(collections.abc.MutableSequence):
         self._suppress_restructure_callbacks = False
         self._restructured_emit()
 
-    def set(self, value: object, *, from_widget=False):
+    def set(self, value: dict, *, from_widget=False):
         # TODO: diff check
         self._data.update(value)
         self._updated_emit()

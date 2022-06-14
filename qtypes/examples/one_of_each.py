@@ -61,11 +61,11 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.root_item = qtypes.Null(label="")
         self.root_item.append(qtypes.Bool("bool"))
         self.root_item.append(qtypes.Button("button"))
-        self.root_item.append(
-            qtypes.Enum("enum", value="red", allowed=["red", "blue", "green"])
-        )
+        self.root_item.append(qtypes.Enum("enum", value="red", allowed=["red", "blue", "green"]))
         self.root_item.append(qtypes.Float("float"))
-        self.root_item.append(qtypes.Float("float with units", units="nm", minimum=400, maximum=800))
+        self.root_item.append(
+            qtypes.Float("float with units", units="nm", minimum=400, maximum=800)
+        )
         self.root_item.append(qtypes.Integer("integer"))
         self.root_item.append(qtypes.String("string"))
         for child in self.root_item.children:
@@ -109,7 +109,6 @@ class MyMainWindow(QtWidgets.QMainWindow):
             self.timer.start()
         else:
             self.timer.stop()
-
 
 
 def one_of_each():
