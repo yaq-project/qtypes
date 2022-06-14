@@ -1,8 +1,9 @@
-__all__ = ["TreeWidget"]
+_all__ = ["TreeWidget"]
 
 
 import sys
 import pathlib
+import collections
 
 from qtpy import QtWidgets, QtGui, QtCore
 
@@ -28,6 +29,39 @@ widgets["enum"] = EnumWidget
 widgets["float"] = FloatWidget
 widgets["integer"] = IntegerWidget
 widgets["string"] = StringWidget
+
+
+class TreeStructureNode(collections.abc.Sequence):
+
+    def __init__(self, label):
+        self.label = label
+        self.children = []
+
+    def __getitem__(self, index):
+        if isinstance(index, int):
+            return self.children[index]
+        elif isinstance(index, str):
+            for child in self.children:
+                if child.label == index:
+                    return child
+            raise KeyError(f"{index} not found in children of {self}")
+        else:
+            raise Exception(f"{index} invalid argument to __getitem__")
+
+    def __len__(self):
+        return len(self.children)
+
+    def __delitem__(self, index):
+        assert isinstance(index, int)
+        del self.children[index]
+        self._restructured_emit()
+
+    def append(self, child: TreeStructureNode):
+        self.children.append(child)
+
+    def clear(self):
+        while self.children:
+            self.pop(0)
 
 
 class TreeWidget(QtWidgets.QTreeWidget):
