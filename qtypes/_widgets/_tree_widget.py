@@ -33,7 +33,6 @@ widgets["string"] = StringWidget
 
 
 class TreeStructureNode(collections.abc.Sequence):
-
     def __init__(self, model, tree_widget, parent=None, root=False):
         self.model = model
         self.parent = parent
@@ -105,10 +104,9 @@ class TreeWidget(QtWidgets.QTreeWidget):
         self.model = model
         self.include_root = include_root
         self.model.restructured_connect(self._on_restructured)
-        self.structure = TreeStructureNode(model=self.model,
-                                           tree_widget=self,
-                                           parent=None,
-                                           root=True)
+        self.structure = TreeStructureNode(
+            model=self.model, tree_widget=self, parent=None, root=True
+        )
 
     def __getitem__(self, index):
         if index < 0:
@@ -143,7 +141,6 @@ class TreeWidget(QtWidgets.QTreeWidget):
             self.setItemWidget(item, 1, widget)
 
     def _on_restructured(self):
-
         @dataclass
         class Task:
             model: object
@@ -163,6 +160,6 @@ class TreeWidget(QtWidgets.QTreeWidget):
             except AssertionError:
                 task.structure_node.clear()
                 for m in task.model.children:
-                    task.structure_node.append(TreeStructureNode(model=m,
-                                                            tree_widget=self,
-                                                            parent=task.structure_node))
+                    task.structure_node.append(
+                        TreeStructureNode(model=m, tree_widget=self, parent=task.structure_node)
+                    )
