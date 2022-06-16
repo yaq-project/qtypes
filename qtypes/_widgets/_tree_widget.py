@@ -85,13 +85,13 @@ class TreeStructureNode(collections.abc.Sequence):
         self.item.setExpanded(False)
         if depth > 0:
             for child in self.children:
-                child.expand(depth=depth-1)
+                child.expand(depth=depth - 1)
 
     def expand(self, depth=10):
         self.item.setExpanded(True)
         if depth > 0:
             for child in self.children:
-                child.expand(depth=depth-1)
+                child.expand(depth=depth - 1)
 
     def pop(self, pos):
         child = self.children.pop(pos)
