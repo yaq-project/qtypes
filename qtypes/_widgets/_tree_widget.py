@@ -38,6 +38,7 @@ class TreeStructureNode(collections.abc.Sequence):
         self.parent = parent
         self.tree_widget = tree_widget
         self.root = root
+        self.label = self.model.get()["label"]
         self.children = []
 
         if self.root:
@@ -80,10 +81,22 @@ class TreeStructureNode(collections.abc.Sequence):
         while self.children:
             self.pop(0)
 
+    def collapse(self, depth=0):
+        self.item.setExpanded(False)
+        if depth > 0:
+            for child in self.children:
+                child.expand(depth=depth-1)
+
+    def expand(self, depth=10):
+        self.item.setExpanded(True)
+        if depth > 0:
+            for child in self.children:
+                child.expand(depth=depth-1)
+
     def pop(self, pos):
         child = self.children.pop(pos)
         self.item.takeChild(pos)
-
+        #
         todo = [child]
         for node in todo:
             todo += node.children
@@ -109,9 +122,15 @@ class TreeWidget(QtWidgets.QTreeWidget):
         )
 
     def __getitem__(self, index):
-        if index < 0:
-            index = self.topLevelItemCount() + index
-        return self.topLevelItem(index)
+        if isinstance(index, int):
+            return self.structure.children[index]
+        elif isinstance(index, str):
+            for child in self.structure.children:
+                if child.label == index:
+                    return child
+            raise KeyError(f"{index} not found in children of {self}")
+        else:
+            raise Exception(f"{index} invalid argument to __getitem__")
 
     def append(self, item):
         self.addTopLevelItem(item)
