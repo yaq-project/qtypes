@@ -170,7 +170,12 @@ class TreeWidget(QtWidgets.QTreeWidget):
         while todo:
             task = todo.pop()
             try:
-                # TODO: this could be better
+                # TODO: this could be better?
+                #       for example, if the model is simply appended to
+                #       all of the sibling nodes will be remade
+                #       when they could just append
+                #       something to think about if performance ends up mattering
+                #       ---Blaise 2022-06-15
                 assert len(task.model) == len(task.structure_node)
                 for m, s in zip(task.model.children, task.structure_node.children):
                     assert m == s.model
