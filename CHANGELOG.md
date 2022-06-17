@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2022.6.1]
+
+### Fixed
+- strange collision with overrode disconnect method caused failure to launch on some machines
+
 ## [2022.6.0]
 
 ### Changed
@@ -93,7 +98,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/yaq-project/qtypes/compare/v2022.6.0...main
+[Unreleased]: https://github.com/yaq-project/qtypes/compare/v2022.6.1...main
+[2022.6.1]: https://github.com/yaq-project/qtypes/compare/v2022.6.0...v2022.6.1
 [2022.6.0]: https://github.com/yaq-project/qtypes/compare/v2022.4.0...v2022.6.0
 [2022.4.0]: https://github.com/yaq-project/qtypes/compare/v2022.3.1...v2022.4.0
 [2022.3.1]: https://gitlab.com/yaq-project/qtypes/compare/v2022.3.0...v2022.3.1
