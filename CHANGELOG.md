@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2022.6.0]
+
+### Changed
+- major refactor with several syntax changes
+- better performance for TreeWidget
+- more dynamic support
+
 ## [2022.4.0]
 
 ### Added
