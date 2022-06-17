@@ -10,7 +10,7 @@ class Widget(QtWidgets.QPushButton):
         self.model.updated_connect(self.on_updated)
         self.on_updated(model.get())
 
-    def disconnect(self):
+    def updated_disconnect(self):
         self.model.updated_disconnect(self.on_updated)
 
     def on_clicked_connect(self):

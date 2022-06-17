@@ -6,5 +6,5 @@ class Widget(QtWidgets.QWidget):
         super().__init__(parent=parent)
         self.model = model
 
-    def disconect(self):
+    def updated_disconnect(self):
         pass

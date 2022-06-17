@@ -100,7 +100,7 @@ class TreeStructureNode(collections.abc.Sequence):
         todo = [child]
         for node in todo:
             todo += node.children
-            node.widget.disconnect()
+            node.widget.updated_disconnect()
 
 
 class TreeWidget(QtWidgets.QTreeWidget):
