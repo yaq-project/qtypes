@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2022.6.0]
+
+### Changed
+- major refactor with several syntax changes
+- better performance for TreeWidget
+- more dynamic support
+
 ## [2022.4.0]
 
 ### Added
@@ -86,15 +93,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://gitlab.com/yaq/qtypes/-/compare/v2022.4.0...main
-[2022.4.0]: https://gitlab.com/yaq/qtypes/-/compare/v2022.3.1...v2022.4.0
-[2022.3.1]: https://gitlab.com/yaq/qtypes/-/compare/v2022.3.0...v2022.3.1
-[2022.3.0]: https://gitlab.com/yaq/qtypes/-/compare/v2022.2.0...v2022.3.0
-[2022.2.0]: https://gitlab.com/yaq/qtypes/-/compare/v2022.1.1...v2022.2.0
-[2022.1.1]: https://gitlab.com/yaq/qtypes/-/compare/v2022.1.0...v2022.1.1
-[2022.1.0]: https://gitlab.com/yaq/qtypes/-/compare/v0.3.2...v2022.1.0
-[0.3.2]: https://gitlab.com/yaq/qtypes/-/compare/v0.3.1...v0.3.2
-[0.3.1]: https://gitlab.com/yaq/qtypes/-/compare/v0.3.0...v0.3.1
-[0.3.0]: https://gitlab.com/yaq/qtypes/-/compare/v0.2.0...v0.3.0
-[0.2.0]: https://gitlab.com/yaq/qtypes/-/compare/v0.1.0...v0.2.0
-[0.1.0]: https://gitlab.com/yaq/qtypes/-/tags/v0.1.0
+[Unreleased]: https://github.com/yaq-project/qtypes/compare/v2022.6.0...main
+[2022.6.0]: https://github.com/yaq-project/qtypes/compare/v2022.4.0...v2022.6.0
+[2022.4.0]: https://github.com/yaq-project/qtypes/compare/v2022.3.1...v2022.4.0
+[2022.3.1]: https://gitlab.com/yaq-project/qtypes/compare/v2022.3.0...v2022.3.1
+[2022.3.0]: https://github.com/yaq-project/qtypes/compare/v2022.2.0...v2022.3.0
+[2022.2.0]: https://github.com/yaq-project/qtypes/compare/v2022.1.1...v2022.2.0
+[2022.1.1]: https://github.com/yaq-project/qtypes/compare/v2022.1.0...v2022.1.1
+[2022.1.0]: https://github.com/yaq-project/qtypes/compare/v0.3.2...v2022.1.0
+[0.3.2]: https://github.com/yaq-project/qtypes/compare/v0.3.1...v0.3.2
+[0.3.1]: https://github.com/yaq-project/qtypes/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/yaq-project/qtypes/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/yaq-project/qtypes/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/yaq-project/qtypes/tags/v0.1.0
