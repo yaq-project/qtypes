@@ -106,7 +106,7 @@ class TreeStructureNode(collections.abc.Sequence):
 class TreeWidget(QtWidgets.QTreeWidget):
     def __init__(self, model, *, include_root=True):
         width = 250
-        super().__init__(parent=None, width=width)
+        super().__init__(parent=None)
         self.setColumnCount(2)
         self.setHeaderLabels(["", ""])
         sheets = list(styles["tomorrow-night"].values())
@@ -131,6 +131,9 @@ class TreeWidget(QtWidgets.QTreeWidget):
             raise KeyError(f"{index} not found in children of {self}")
         else:
             raise Exception(f"{index} invalid argument to __getitem__")
+
+    def __len__(self) -> int:
+        return len(self.structure)
 
     def append(self, item):
         self.addTopLevelItem(item)
