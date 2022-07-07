@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Fixed
 - int widgets needed to set min/max, added tooltip
 - enum widget referenced a non-existant attribute
+- enum backend better behavior when changing allowed values
 
 ## [2022.6.1]
 
