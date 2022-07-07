@@ -21,7 +21,7 @@ class Widget(QtWidgets.QComboBox):
 
         if not data["allowed"]:
             # If now allowed values are given, reset to default
-            data["allowed"] = self.defaults["allowed"]
+            data["allowed"] = [""]
 
         # allowed
         all_items = [self.itemText(i) for i in range(self.count())]

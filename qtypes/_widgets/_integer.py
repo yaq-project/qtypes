@@ -17,6 +17,11 @@ class Widget(QtWidgets.QSpinBox):
         self.model.set({"value": self.value()}, from_widget=True)
 
     def on_updated(self, data):
+        # minimum, maximum
+        self.setMinimum(int(data["minimum"]))
+        self.setMaximum(int(data["maximum"]))
+        # tool tip
+        self.setToolTip(f"minimum:{int(data['minimum'])}\nmaximum:{int(data['maximum'])}")
         if not self.hasFocus():
             self.setValue(data["value"])
             self.setDisabled(data["disabled"])
