@@ -11,4 +11,4 @@ from ._string import *
 from ._styles import *
 from ._widgets import *
 
-__version__ = "2022.6.1"
+__version__ = "2022.7.0"
