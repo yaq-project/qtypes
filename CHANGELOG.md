@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2022.11.0]
+
 ### Fixed
 - fixed crash if unknown units strings were provided
 
@@ -108,7 +110,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/yaq-project/qtypes/compare/v2022.7.0...main
+[Unreleased]: https://github.com/yaq-project/qtypes/compare/v2022.11.0...main
+[2022.7.0]: https://github.com/yaq-project/qtypes/compare/v2022.7.0...v2022.11.0
 [2022.7.0]: https://github.com/yaq-project/qtypes/compare/v2022.6.1...v2022.7.0
 [2022.6.1]: https://github.com/yaq-project/qtypes/compare/v2022.6.0...v2022.6.1
 [2022.6.0]: https://github.com/yaq-project/qtypes/compare/v2022.4.0...v2022.6.0
