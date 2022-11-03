@@ -49,7 +49,12 @@ class Widget(QtWidgets.QWidget):
         # units
         if data["units"] is not None and len(self.allowed_units) == 0:
             self.combo_box.currentIndexChanged.disconnect(self.on_combo_box_editing_finished)
-            self.combo_box.addItems(get_valid_conversions(data["units"]))
+            options = get_valid_conversions(data["units"])
+            if data["units"] not in options:
+                options = list(options)
+                options.append(data["units"])
+            self.combo_box.setDisabled(len(options) == 1)
+            self.combo_box.addItems(options)
             self.combo_box.currentIndexChanged.connect(self.on_combo_box_editing_finished)
         if data["units"] is not None:
             self.combo_box.show()
