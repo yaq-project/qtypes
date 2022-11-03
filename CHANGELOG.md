@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Fixed
+- fixed crash if unknown units strings were provided
+
 ## [2022.7.0]
 
 ### Fixed
