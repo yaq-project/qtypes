@@ -6,7 +6,6 @@ from .._units import converter, get_valid_conversions
 
 
 class DoubleSpinNoWheel(QtWidgets.QDoubleSpinBox):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setFocusPolicy(QtCore.Qt.StrongFocus)
