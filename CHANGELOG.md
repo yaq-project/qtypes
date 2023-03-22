@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2023.3.0]
+
 ### Changed
 - enum, float, and integer now ignore mouse wheel
 
@@ -113,7 +115,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/yaq-project/qtypes/compare/v2022.11.0...main
+[Unreleased]: https://github.com/yaq-project/qtypes/compare/v2023.3.0...main
+[2023.3.0]: https://github.com/yaq-project/qtypes/compare/v2022.11.0...v2023.3.0
 [2022.7.0]: https://github.com/yaq-project/qtypes/compare/v2022.7.0...v2022.11.0
 [2022.7.0]: https://github.com/yaq-project/qtypes/compare/v2022.6.1...v2022.7.0
 [2022.6.1]: https://github.com/yaq-project/qtypes/compare/v2022.6.0...v2022.6.1
