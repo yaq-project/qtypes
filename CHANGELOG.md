@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Changed
+- enum, float, and integer now ignore mouse wheel
+
 ## [2022.11.0]
 
 ### Fixed

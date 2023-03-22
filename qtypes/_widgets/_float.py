@@ -5,12 +5,25 @@ from qtpy import QtWidgets, QtGui, QtCore
 from .._units import converter, get_valid_conversions
 
 
+class DoubleSpinNoWheel(QtWidgets.QDoubleSpinBox):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.installEventFilter(self)
+
+    def eventFilter(self, obj, event):
+        if isinstance(event, QtGui.QWheelEvent):
+            return True
+        else:
+            return super().eventFilter(obj, event)
+
+
 class Widget(QtWidgets.QWidget):
     def __init__(self, model, parent):
         super().__init__(parent=parent)
         # build widget
         self.setLayout(QtWidgets.QHBoxLayout())
-        self.spin_box = QtWidgets.QDoubleSpinBox()
+        self.spin_box = DoubleSpinNoWheel()
         self.layout().addWidget(self.spin_box)
         self.combo_box = QtWidgets.QComboBox()
         self.combo_box.setFixedWidth(100)
