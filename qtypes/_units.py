@@ -37,6 +37,7 @@ delay.add_transformation(
 )
 ureg.enable_contexts("spectroscopy", delay)
 
+
 def converter(val, current_unit, destination_unit):
     """Convert from one unit to another.
 
@@ -95,4 +96,3 @@ def is_valid_conversion(a, b, blessed=True) -> bool:
         return ureg.Unit(a).is_compatible_with(b, "spectroscopy")
     except pint.UndefinedUnitError:
         return False
-
