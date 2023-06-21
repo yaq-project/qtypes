@@ -88,4 +88,3 @@ def is_valid_conversion(a, b, blessed=True) -> bool:
         return ureg.Unit(a).is_compatible_with(b, "spectroscopy")
     except pint.UndefinedUnitError:
         return False
-
