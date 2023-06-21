@@ -81,18 +81,6 @@ def get_valid_conversions(units, options=blessed_units) -> tuple:
 def is_valid_conversion(a, b, blessed=True) -> bool:
     if a is None:
         return b is None
-    if a in blessed_units:
+    if a in blessed_units and blessed:
         return b in blessed_units[a]
-    if blessed and a in blessed_units and b in blessed_units:
-        blessed_energy_units = {"nm", "wn", "eV", "meV", "Hz", "THz", "GHz"}
-        if a in blessed_energy_units:
-            return b in blessed_energy_units
-        blessed_delay_units = {"fs", "ps", "ns", "mm_delay"}
-        if a in blessed_delay_units:
-            return b in blessed_delay_units
-        return ureg.Unit(a).dimensionality == ureg.Unit(b).dimensionality
-    try:
-        return ureg.Unit(a).is_compatible_with(b, "spectroscopy")
-    except pint.UndefinedUnitError:
-        return False
 
