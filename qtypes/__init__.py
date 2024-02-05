@@ -1,6 +1,5 @@
 """Build qt graphical user interfaces out of simple type objects."""
 
-
 from ._bool import *
 from ._button import *
 from ._enum import *
