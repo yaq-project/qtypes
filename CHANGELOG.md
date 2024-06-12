@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Changed
+- overhaul of how blessed_units work
+
 ## [2023.3.0]
 
 ### Changed

@@ -5,67 +5,28 @@ import warnings
 import pint
 
 
-blessed_units = (
-    # angle
-    "rad",
-    "deg",
-    # delay
-    "fs",
-    "ps",
-    "ns",
-    "mm_delay",
-    # energy
-    "nm",
-    "wn",
-    "eV",
-    "meV",
-    "Hz",
-    "THz",
-    "GHz",
-    # optical density
-    "mOD",
-    # position
-    "nm_p",
-    "um",
-    "mm",
-    "cm",
-    "in",
-    # absolute temperature
-    "K",
-    "deg_C",
-    "deg_F",
-    "deg_R",
-    # time
-    "fs_t",
-    "ps_t",
-    "ns_t",
-    "us_t",
-    "ns_t",
-    "s_t",
-    "m_t",
-    "h_t",
-    "d_t",
-)
+blessed_units = dict()
+blessed_units["rad"] = ["deg"]
+blessed_units["deg"] = ["rad"]
+blessed_units["fs"] = ["ps", "ns"]
+blessed_units["ps"] = ["fs", "ns"]
+blessed_units["ns"] = ["fs", "ps"]
+blessed_units["nm"] = ["wn", "eV", "meV", "Hz", "THz", "GHz"]
+blessed_units["wn"] = ["nm", "eV", "meV", "Hz", "THz", "GHz"]
+blessed_units["um"] = ["mm", "cm", "in"]
+blessed_units["mm"] = ["um", "cm", "in"]
+blessed_units["cm"] = ["um", "nm", "in"]
+blessed_units["in"] = ["um", "nm", "cm"]
+blessed_units["degC"] = ["degF", "K"]
+blessed_units["degF"] = ["degC", "K"]
+blessed_units["K"] = ["degC", "degF"]
+blessed_units["s"] = ["min", "hour"]
+blessed_units["min"] = ["s", "hour"]
+blessed_units["hour"] = ["min", "hour"]
+
 
 ureg = pint.UnitRegistry()
-ureg.define("[fluence] = [energy] / [area]")
-
-ureg.define("OD = [] ")
-
 ureg.define("wavenumber = 1 / cm = cm^{-1} = wn")
-
-
-# Aliases for backwards compatability
-ureg.define("@alias s = s_t")
-ureg.define("@alias min = m_t")
-ureg.define("@alias hour = h_t")
-ureg.define("@alias d = d_t")
-
-ureg.define("@alias degC = deg_C")
-ureg.define("@alias degF = deg_F")
-ureg.define("@alias degR = deg_R")
-
-ureg.define("@alias m = m_delay")
 
 delay = pint.Context("delay", defaults={"n": 1, "num_pass": 2})
 delay.add_transformation(
@@ -112,74 +73,18 @@ def converter(val, current_unit, destination_unit):
 convert = converter
 
 
-def get_symbol(units) -> Optional[str]:
-    """Get default symbol type.
-
-    Parameters
-    ----------
-    units_str : string
-        Units.
-
-    Returns
-    -------
-    string
-        LaTeX formatted symbol.
-    """
-    quantity = ureg.Quantity(1, ureg[units])
-    if quantity.check("[length]"):
-        return r"\lambda"
-    elif quantity.check("1 / [length]"):
-        return r"\bar\nu"
-    elif quantity.check("[energy]"):
-        return r"\hslash\omega"
-    elif quantity.check("1 / [time]"):
-        return "f"
-    elif quantity.check("[time]"):
-        return r"\tau"
-    elif quantity.check("[fluence]"):
-        return r"\mathcal{F}"
-    elif quantity.check("[temperature]"):
-        return "T"
-    elif ureg[units] in (ureg.deg, ureg.radian):
-        return r"\omega"
-    else:
-        return None
-
-
 def get_valid_conversions(units, options=blessed_units) -> tuple:
+    if units in options:
+        return options[units]
     return tuple(i for i in options if is_valid_conversion(units, i))
 
 
 def is_valid_conversion(a, b, blessed=True) -> bool:
     if a is None:
         return b is None
-    if blessed and a in blessed_units and b in blessed_units:
-        blessed_energy_units = {"nm", "wn", "eV", "meV", "Hz", "THz", "GHz"}
-        if a in blessed_energy_units:
-            return b in blessed_energy_units
-        blessed_delay_units = {"fs", "ps", "ns", "mm_delay"}
-        if a in blessed_delay_units:
-            return b in blessed_delay_units
-        return ureg.Unit(a).dimensionality == ureg.Unit(b).dimensionality
+    if a in blessed_units and blessed:
+        return b in blessed_units[a]
     try:
         return ureg.Unit(a).is_compatible_with(b, "spectroscopy")
     except pint.UndefinedUnitError:
         return False
-
-
-def kind(units):
-    """Find the dimensionality of given units.
-
-    Parameters
-    ----------
-    units : string
-        The units of interest
-
-    Returns
-    -------
-    string
-        The kind of the given units. If no match is found, returns None.
-    """
-    if units is None:
-        return None
-    return str(ureg.Unit(units).dimensionality)

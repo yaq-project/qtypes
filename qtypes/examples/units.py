@@ -32,7 +32,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.root_item.append(qtypes.Float("energy", value=12500, units="wn", minimum=0))
         self.root_item.append(qtypes.Float("position", value=0.01, units="in"))
         self.root_item.append(
-            qtypes.Float("temperature", value=32, units="deg_F", minimum=-459.67, maximum=1000)
+            qtypes.Float("temperature", value=32, units="degF", minimum=-459.67, maximum=1000)
         )
         for child in self.root_item.children:
             append_inspection_widgets(child)
