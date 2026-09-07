@@ -1,6 +1,5 @@
 """Example of an interface to typical daemons on the Wright Group fs system"""
 
-
 import sys
 import functools
 
