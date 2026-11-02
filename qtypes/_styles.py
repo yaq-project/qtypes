@@ -4,7 +4,6 @@ __all__ = ["styles"]
 import pathlib
 from typing import Dict
 
-
 __here__ = pathlib.Path(__file__).parent
 styles_dir = __here__ / "styles"
 styles: Dict[str, Dict[str, str]] = dict()
