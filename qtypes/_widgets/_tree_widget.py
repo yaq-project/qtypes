@@ -18,7 +18,6 @@ from ._float import Widget as FloatWidget
 from ._integer import Widget as IntegerWidget
 from ._string import Widget as StringWidget
 
-
 __here__ = pathlib.Path(__file__).parent
 
 

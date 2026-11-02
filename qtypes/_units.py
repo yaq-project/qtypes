@@ -4,7 +4,6 @@ import warnings
 
 import pint
 
-
 blessed_units = (
     # angle
     "rad",
